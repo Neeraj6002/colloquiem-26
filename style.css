@@ -61,7 +61,21 @@ body {
     background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--glass-border);
 }
-.logo { font-family: 'Cinzel', serif; font-size: 1.5rem; color: white; letter-spacing: 2px; }
+.logo { 
+    font-family: 'Cinzel', serif; 
+    font-size: 25px; 
+    color: white; 
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    height: 35px;
+    width: auto;
+    filter: brightness(1.2);
+}
 
 /* Hero section */
 .hero {
@@ -221,6 +235,20 @@ body {
     background: transparent; border: 1px solid white; color: white;
     padding: 10px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s;
 }
+
+@media (max-width: 720px) {
+    .accent-btn {
+        padding: 5px 15px;
+        font-size: 10px;
+        
+    }
+}
+@media (max-width: 480px) {
+    .accent-btn {
+        padding: 5px 10px;
+        
+    }
+}
 .outline-btn:hover { background: white; color: black; }
 
 /* Registration form & QR */
@@ -285,6 +313,15 @@ footer {
     .card-grid { grid-template-columns: 1fr; gap: 2rem; }
     .btn-group { flex-direction: column; }
     .btn-group .outline-btn { width: 100%; }
+
+    /* Mobile logo adjustments */
+    .logo { 
+        font-size: 0.85rem; 
+        gap: 8px;
+    }
+    .logo-img {
+        height: 28px;
+    }
 }
 
 /* About Section Styles */
