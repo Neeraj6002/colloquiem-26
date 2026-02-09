@@ -496,9 +496,10 @@ window.closeEventModal = function() {
 // ============================================================
 // GLOBAL FUNCTION: REGISTRATION
 // ============================================================
+
 window.openRegister = function(eventName, price) {
-    // Remove ₹ symbol from price for storage
-    const cleanPrice = price.replace('₹', '');
+    // Convert price to string first, then remove ₹ symbol if present
+    const cleanPrice = typeof price === 'number' ? price.toString() : String(price).replace('₹', '').trim();
     
     // Store event details in session storage
     sessionStorage.setItem('selectedEvent', eventName);

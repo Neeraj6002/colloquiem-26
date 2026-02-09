@@ -8,179 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        /* Additional styles for registration page */
-        .register-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            position: relative;
-        }
-        
-        .glass-form-container {
-            background: rgba(20, 20, 30, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        
-        .glass-form-container h2 {
-            color: #C5A059;
-            font-family: 'Cinzel', serif;
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 2rem;
-        }
-        
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-group input,
-        .input-group textarea {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .input-group input:focus,
-        .input-group textarea:focus {
-            outline: none;
-            border-color: #C5A059;
-            background: rgba(255, 255, 255, 0.08);
-        }
-        
-        .input-group input::placeholder,
-        .input-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .gold-input {
-            background: rgba(197, 160, 89, 0.1) !important;
-            border-color: #C5A059 !important;
-            font-weight: 600;
-        }
-        
-        .payment-box {
-            background: rgba(197, 160, 89, 0.05);
-            border: 2px solid rgba(197, 160, 89, 0.3);
-            border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
-            text-align: center;
-        }
-        
-        .payment-box p {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-        
-        .gold-accent {
-            color: #C5A059;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        
-        .payment-method {
-            margin: 20px 0;
-        }
-        
-        .accent-btn-full {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #C5A059 0%, #8B7040 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-        }
-        
-        .accent-btn-full:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
-        }
-        
-        .qr-container {
-            display: inline-block;
-            padding: 15px;
-            background: #fff;
-            border-radius: 12px;
-            margin: 15px 0;
-        }
-        
-        .clean-qr {
-            width: 200px;
-            height: 200px;
-            display: block;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #C5A059 0%, #8B7040 100%);
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Cinzel', serif;
-            margin-top: 20px;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.5);
-        }
-        
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .back-link a {
-            color: #C5A059;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-        
-        .back-link a:hover {
-            color: #fff;
-        }
-        
-        @media (max-width: 768px) {
-            .glass-form-container {
-                padding: 30px 20px;
-            }
-            
-            .glass-form-container h2 {
-                font-size: 1.6rem;
-            }
-            
-            .clean-qr {
-                width: 150px;
-                height: 150px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="reg.css">
 </head>
 <body>
     <div class="noise-overlay"></div>
@@ -195,36 +23,35 @@
         <div class="glass-form-container">
             <h2>Event Registration</h2>
             
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { showSuccessModal(); }"></iframe>
-            
-            <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdPmXY6LqxBjSE-WCTQ0AlSPqfbQbUCSKAE-8tgDpwQsIBi_w/formResponse" method="post" target="hidden_iframe" onsubmit="submitted=true">
+            <!-- Registration Form -->
+            <form id="registrationForm">
                 
                 <div class="input-group">
-                    <input type="text" id="fullName" name="entry.1415915149" placeholder="Full Name" required onkeyup="updatePaymentLink()">
+                    <input type="text" id="fullName" name="fullName" placeholder="Full Name" required onkeyup="updatePaymentLink()">
                 </div>
 
                 <div class="input-group">
-                    <input type="email" name="entry.643319151" placeholder="Email Address" required>
+                    <input type="email" id="email" name="email" placeholder="Email Address" required>
                 </div>
                 
                 <div class="input-group">
-                    <input type="tel" name="entry.775251374" placeholder="Phone Number" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number">
+                    <input type="tel" id="phone" name="phone" placeholder="Phone Number" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number">
                 </div>
                 
                 <div class="input-group">
-                    <input type="text" name="entry.1566371576" placeholder="College Name" required>
+                    <input type="text" id="college" name="college" placeholder="College Name" required>
                 </div>
                 
                 <div class="input-group">
-                    <input type="text" name="entry.935628589" placeholder="Department & Semester" required>
+                    <input type="text" id="department" name="department" placeholder="Department & Semester" required>
                 </div>
                 
                 <div class="input-group">
-                    <input type="text" id="eventField" name="entry.1628957717" placeholder="Loading event..." readonly required class="gold-input">
+                    <input type="text" id="eventField" name="event" placeholder="Loading event..." readonly required class="gold-input">
                 </div>
 
                 <div class="input-group">
-                    <textarea name="entry.1658592815" placeholder="Team Details (if applicable) - Enter team member names and contact details" rows="3"></textarea>
+                    <textarea id="teamDetails" name="teamDetails" placeholder="Team Details (if applicable) - Enter team member names and contact details" rows="3"></textarea>
                 </div>
 
                 <div class="payment-box">
@@ -251,7 +78,7 @@
                     </div>
 
                     <div class="input-group" style="margin-top:20px;">
-                        <input type="text" name="entry.650695228" placeholder="Enter Transaction ID / UTR Number" required>
+                        <input type="text" id="transactionId" name="transactionId" placeholder="Enter Transaction ID / UTR Number" required>
                     </div>
                     
                     <small style="color: #aaa; font-size: 0.8rem; display: block; margin-top: 10px;">
@@ -259,7 +86,7 @@
                     </small>
                 </div>
 
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="submitBtn">
                     <i class="fas fa-check-circle"></i> Complete Registration
                 </button>
             </form>
@@ -270,76 +97,55 @@
         </div>
     </section>
 
-    <!-- Include the registration script -->
-    <script src="reg.js"></script>
-    
-    <!-- Simple particle background script -->
-    <script>
-        const canvas = document.getElementById('bgCanvas');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            
-            let particlesArray = [];
-            
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 2;
-                    this.speedX = (Math.random() * 0.5) - 0.25;
-                    this.speedY = (Math.random() * 0.5) - 0.25;
-                    this.color = Math.random() > 0.8 ? '#C5A059' : '#ffffff';
-                    this.opacity = Math.random() * 0.5 + 0.1;
-                }
-                
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    
-                    if (this.x > canvas.width) this.x = 0;
-                    else if (this.x < 0) this.x = canvas.width;
-                    
-                    if (this.y > canvas.height) this.y = 0;
-                    else if (this.y < 0) this.y = canvas.height;
-                }
-                
-                draw() {
-                    ctx.fillStyle = this.color;
-                    ctx.globalAlpha = this.opacity;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-            
-            function initParticles() {
-                particlesArray = [];
-                let numberOfParticles = (canvas.width * canvas.height) / 9000;
-                for (let i = 0; i < numberOfParticles; i++) {
-                    particlesArray.push(new Particle());
-                }
-            }
-            
-            function animateParticles() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particlesArray.forEach(particle => {
-                    particle.update();
-                    particle.draw();
-                });
-                requestAnimationFrame(animateParticles);
-            }
-            
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                initParticles();
-            });
-            
-            initParticles();
-            animateParticles();
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content" style="max-width: 400px; text-align: center; padding: 40px;">
+            <div style="font-size: 60px; color: #C5A059; margin-bottom: 20px;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 style="color: #C5A059; margin-bottom: 15px;">Registration Successful! 🎉</h2>
+            <p style="color: #ccc; margin-bottom: 20px;">
+                Your registration has been submitted successfully. You will receive a confirmation email shortly.
+            </p>
+            <p style="color: #fff; font-weight: 500;">Thank you for registering!</p>
+            <button onclick="closeSuccessModal()" class="accent-btn" style="margin-top: 20px;">
+                Back to Events
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content" style="max-width: 400px; text-align: center; padding: 40px;">
+            <div style="font-size: 60px; color: #ff4444; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h2 style="color: #ff4444; margin-bottom: 15px;">Registration Failed</h2>
+            <p id="errorMessage" style="color: #ccc; margin-bottom: 20px;">
+                Something went wrong. Please try again.
+            </p>
+            <button onclick="closeErrorModal()" class="accent-btn" style="margin-top: 20px;">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="modal-overlay" style="display:none;">
+        <div style="text-align: center;">
+            <div class="spinner" style="border: 4px solid rgba(197, 160, 89, 0.3); border-top: 4px solid #C5A059; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+            <p style="color: #C5A059; margin-top: 20px; font-size: 18px;">Submitting your registration...</p>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-    </script>
+    </style>
+
+    <!-- Include Firebase config and registration script as modules -->
+    <script type="module" src="reg.js"></script>
 </body>
 </html>
