@@ -1,8 +1,7 @@
-// ============================================================
-// FIREBASE CONFIGURATION
-// ============================================================
 
-// Import the functions you need from the SDKs
+// ============================================================
+// FIREBASE AUTHENTICATION FOR ADMIN DASHBOARD
+// ============================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
     getFirestore, 
@@ -18,7 +17,15 @@ import {
     serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Your web app's Firebase configuration
+import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider, 
+    onAuthStateChanged,
+    signOut 
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+// Firebase configuration (replace with your actual config)
 const firebaseConfig = {
     apiKey: "AIzaSyDDbtbxlzWsRL4nZ3YyjSkW7DFmqMsdwfk",
     authDomain: "colloquium-26.firebaseapp.com",
@@ -31,11 +38,99 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Initialize Firestore
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
-// Export for use in other files
+// ============================================================
+// HARDCODED ALLOWED ADMIN EMAILS
+// ============================================================
+const ALLOWED_ADMINS = [
+    'admin@colloquium.com',
+    'organizer@colloquium.com',
+    'coordinator@colloquium.com',
+    // Add more authorized emails here
+];
+
+// ============================================================
+// CHECK IF USER IS AUTHORIZED
+// ============================================================
+function isAuthorizedUser(email) {
+    return ALLOWED_ADMINS.includes(email.toLowerCase());
+}
+
+// ============================================================
+// GOOGLE SIGN IN
+// ============================================================
+export async function signInWithGoogle() {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        
+        console.log('User signed in:', user.email);
+        
+        // Check if user is authorized
+        if (isAuthorizedUser(user.email)) {
+            console.log('User authorized');
+            return { success: true, user };
+        } else {
+            console.log('User not authorized');
+            await signOut(auth);
+            return { 
+                success: false, 
+                error: 'Access Denied: Your email is not authorized to access this admin panel.' 
+            };
+        }
+        
+    } catch (error) {
+        console.error('Error during sign in:', error);
+        return { 
+            success: false, 
+            error: error.message 
+        };
+    }
+}
+
+// ============================================================
+// SIGN OUT
+// ============================================================
+export async function signOutUser() {
+    try {
+        await signOut(auth);
+        console.log('User signed out');
+        return { success: true };
+    } catch (error) {
+        console.error('Error during sign out:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// ============================================================
+// AUTH STATE OBSERVER
+// ============================================================
+export function initAuthObserver(onAuthorized, onUnauthorized) {
+    onAuthStateChanged(auth, (user) => {
+        if (user && isAuthorizedUser(user.email)) {
+            console.log('Authorized user detected:', user.email);
+            onAuthorized(user);
+        } else {
+            console.log('No authorized user');
+            onUnauthorized();
+        }
+    });
+}
+
+// ============================================================
+// GET CURRENT USER
+// ============================================================
+export function getCurrentUser() {
+    return auth.currentUser;
+}
+
+// ============================================================
+// EXPORT AUTH INSTANCE
+// ============================================================
+export { auth };
 export { 
     db, 
     collection, 
