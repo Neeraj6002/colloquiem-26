@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Colloquium 2026</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="header-left">
+            <h1 class="admin-title">COLLOQUIUM <span class="gold-accent">2026</span></h1>
+            <p class="admin-subtitle">Registration Dashboard • <span id="adminEmail">admin@colloquium.com</span></p>
+        </div>
+        <div class="header-right">
+            <button class="header-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> BACK TO SITE
+            </button>
+            <button class="header-btn refresh-btn" onclick="refreshData()">
+                <i class="fas fa-sync-alt"></i> REFRESH
+            </button>
+            <button class="header-btn logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- Stats Cards -->
+    <section class="stats-section">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+                <h2 id="totalRegistrations">0</h2>
+                <p>Total Registrations</p>
+            </div>
+        </div>
+
+        <div class="stat-card approved">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-content">
+                <h2 id="approvedCount">0</h2>
+                <p>Approved</p>
+            </div>
+        </div>
+
+        <div class="stat-card pending">
+            <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-content">
+                <h2 id="pendingCount">0</h2>
+                <p>Pending</p>
+            </div>
+        </div>
+
+       <!--  <div class="stat-card revenue">
+            <div class="stat-icon">
+                <i class="fas fa-rupee-sign"></i>
+            </div>
+            <div class="stat-content">
+                <h2 id="totalRevenue">₹0</h2>
+                <p>Total Revenue</p>
+            </div>
+        </div> -->
+    </section>
+
+    <!-- Event Filter Buttons -->
+    <section class="events-filter-section">
+        <h2 class="section-title">Filter by <span class="gold-accent">Event</span></h2>
+        <div class="events-grid" id="eventsGrid">
+            <button class="event-filter-btn active" data-event="all" onclick="filterByEvent('all')">
+                <i class="fas fa-th"></i>
+                <span>All Events</span>
+                <span class="event-count" id="count-all">0</span>
+            </button>
+            
+            <button class="event-filter-btn" data-event="Robowar" onclick="filterByEvent('Robowar')">
+                <i class="fas fa-robot"></i>
+                <span>Robowar</span>
+                <span class="event-count" id="count-robowar">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="ACME" onclick="filterByEvent('ACME')">
+                <i class="fas fa-code"></i>
+                <span>ACME</span>
+                <span class="event-count" id="count-acme">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="Bridge Modelling" onclick="filterByEvent('Bridge Modelling')">
+                <i class="fas fa-bridge"></i>
+                <span>Bridge Modelling</span>
+                <span class="event-count" id="count-bridge">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="Automotive Biz Conclave" onclick="filterByEvent('Automotive Biz Conclave')">
+                <i class="fas fa-car"></i>
+                <span>Automotive Biz</span>
+                <span class="event-count" id="count-automotive">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="Reverse Marketing" onclick="filterByEvent('Reverse Marketing')">
+                <i class="fas fa-bullhorn"></i>
+                <span>Reverse Marketing</span>
+                <span class="event-count" id="count-marketing">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="MUN (ISTE)" onclick="filterByEvent('MUN (ISTE)')">
+                <i class="fas fa-globe"></i>
+                <span>MUN</span>
+                <span class="event-count" id="count-mun">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="Debate" onclick="filterByEvent('Debate')">
+                <i class="fas fa-comments"></i>
+                <span>Debate</span>
+                <span class="event-count" id="count-debate">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="Prompt Writing" onclick="filterByEvent('Prompt Writing')">
+                <i class="fas fa-brain"></i>
+                <span>AI Prompt</span>
+                <span class="event-count" id="count-prompt">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="Program Debugging" onclick="filterByEvent('Program Debugging')">
+                <i class="fas fa-bug"></i>
+                <span>Debug Hunt</span>
+                <span class="event-count" id="count-debug">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="Circuit Designing" onclick="filterByEvent('Circuit Designing')">
+                <i class="fas fa-microchip"></i>
+                <span>Circuit Design</span>
+                <span class="event-count" id="count-circuit">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="AutoCAD Competition" onclick="filterByEvent('AutoCAD Competition')">
+                <i class="fas fa-drafting-compass"></i>
+                <span>AutoCAD</span>
+                <span class="event-count" id="count-autocad">0</span>
+            </button>
+
+            <button class="event-filter-btn" data-event="AI Workshop" onclick="filterByEvent('AI Workshop')">
+                <i class="fas fa-laptop-code"></i>
+                <span>AI Workshop</span>
+                <span class="event-count" id="count-workshop">0</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Registrations Table -->
+    <section class="registrations-section">
+        <div class="registrations-header">
+            <h2 class="section-title">
+                <span id="selectedEventTitle">All Registrations</span>
+            </h2>
+            <button class="export-btn" onclick="exportToCSV()">
+                <i class="fas fa-download"></i> EXPORT CSV
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search by name, email, phone, college, department, or event..." onkeyup="searchTable()">
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table class="registrations-table" id="registrationsTable">
+                <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>EMAIL</th>
+                        <th>PHONE</th>
+                        <th>COLLEGE</th>
+                        <th>DEPT</th>
+                        <th>EVENT</th>
+                        <th>TEAM DETAILS</th>
+                        <th>PRICE</th>
+                        <th>TXN ID</th>
+                        <th>DATE</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data will be populated by JavaScript -->
+                    <tr>
+                        <td colspan="12" class="no-data">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading registrations...</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- View Details Modal -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeDetailsModal()">&times;</span>
+            <h2>Registration Details</h2>
+            
+            <div class="detail-grid" id="detailsContent">
+                <!-- Content will be populated dynamically -->
+            </div>
+
+            <div class="modal-actions">
+                <button class="approve-btn" id="modalApproveBtn" onclick="approveFromModal()">
+                    <i class="fas fa-check"></i> Approve
+                </button>
+                <button class="reject-btn" id="modalRejectBtn" onclick="rejectFromModal()">
+                    <i class="fas fa-times"></i> Reject
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

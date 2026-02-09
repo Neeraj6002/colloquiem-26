@@ -1,15 +1,25 @@
 // ============================================================
 // FIREBASE CONFIGURATION
-// Replace with your actual Firebase config from Firebase Console
 // ============================================================
 
 // Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    getDocs, 
+    doc, 
+    updateDoc, 
+    deleteDoc,
+    query,
+    where,
+    orderBy,
+    serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // Your web app's Firebase configuration
-// TODO: Replace with your actual Firebase config
- const firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyDDbtbxlzWsRL4nZ3YyjSkW7DFmqMsdwfk",
     authDomain: "colloquium-26.firebaseapp.com",
     projectId: "colloquium-26",
@@ -17,7 +27,7 @@ import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.g
     messagingSenderId: "467903040407",
     appId: "1:467903040407:web:cd56e1e700ff45b7f752d2",
     measurementId: "G-EMPLCFJW8Q"
-  };
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -26,4 +36,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Export for use in other files
-export { db, collection, addDoc, serverTimestamp };
+export { 
+    db, 
+    collection, 
+    addDoc, 
+    getDocs, 
+    doc, 
+    updateDoc, 
+    deleteDoc,
+    query,
+    where,
+    orderBy,
+    serverTimestamp 
+};
