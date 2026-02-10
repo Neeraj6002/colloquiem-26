@@ -1,4 +1,3 @@
-
 // ============================================================
 // FIREBASE AUTHENTICATION FOR ADMIN DASHBOARD
 // ============================================================
@@ -25,7 +24,7 @@ import {
     signOut 
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 
-// Firebase configuration (replace with your actual config)
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDDbtbxlzWsRL4nZ3YyjSkW7DFmqMsdwfk",
     authDomain: "colloquium-26.firebaseapp.com",
@@ -52,7 +51,6 @@ const ALLOWED_ADMINS = [
     'thahir05ae@gmail.com',
     'adithyanath.s10b@gmail.com',
     'neerajj6002@gmail.com'
-    // Add more authorized emails here
 ];
 
 // ============================================================
@@ -72,7 +70,6 @@ export async function signInWithGoogle() {
         
         console.log('User signed in:', user.email);
         
-        // Check if user is authorized
         if (isAuthorizedUser(user.email)) {
             console.log('User authorized');
             return { success: true, user };
@@ -131,19 +128,6 @@ export function getCurrentUser() {
 }
 
 // ============================================================
-// EXPORT AUTH INSTANCE
+// EXPORTS
 // ============================================================
-export { auth };
-export { 
-    db, 
-    collection, 
-    addDoc, 
-    getDocs, 
-    doc, 
-    updateDoc, 
-    deleteDoc,
-    query,
-    where,
-    orderBy,
-    serverTimestamp 
-};
+export { auth, db, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp };

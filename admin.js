@@ -2,21 +2,60 @@
 // ADMIN DASHBOARD WITH FIREBASE INTEGRATION
 // ============================================================
 
-// Import Firebase functions
-import { db, collection, getDocs, doc, updateDoc, query, where, orderBy } from './firebase-config.js';
+import { db, collection, getDocs, doc, updateDoc } from './firebase-config.js';
 
 let allRegistrations = [];
 let currentFilter = 'all';
 let currentRegistrationId = null;
+let isInitialized = false;
 
 // ============================================================
-// LOAD ALL REGISTRATIONS ON PAGE LOAD
+// INITIALIZE DASHBOARD
 // ============================================================
-window.addEventListener('DOMContentLoaded', async function() {
-    console.log('DOM loaded, starting initialization...');
+export async function initializeDashboard() {
+    if (isInitialized) {
+        console.log('Dashboard already initialized');
+        return;
+    }
+    
+    console.log('Initializing dashboard...');
+    isInitialized = true;
+    
     await loadRegistrations();
+    setupEventListeners();
     createBackgroundAnimation();
-});
+}
+
+// ============================================================
+// SETUP EVENT LISTENERS
+// ============================================================
+function setupEventListeners() {
+    // Search input
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', searchTable);
+    }
+
+    // Modal close on outside click
+    const modal = document.getElementById('detailsModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeDetailsModal();
+            }
+        });
+    }
+
+    // Modal close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeDetailsModal();
+        }
+    });
+
+    // Window resize for canvas
+    window.addEventListener('resize', handleResize);
+}
 
 // ============================================================
 // LOAD REGISTRATIONS FROM FIREBASE
@@ -24,11 +63,8 @@ window.addEventListener('DOMContentLoaded', async function() {
 async function loadRegistrations() {
     try {
         console.log('Loading registrations from Firestore...');
-        console.log('Database instance:', db);
         
         const registrationsRef = collection(db, 'registrations');
-        console.log('Collection reference created:', registrationsRef);
-        
         const querySnapshot = await getDocs(registrationsRef);
         
         allRegistrations = [];
@@ -45,11 +81,6 @@ async function loadRegistrations() {
         
         querySnapshot.forEach((docSnapshot) => {
             const data = docSnapshot.data();
-            console.log('Registration data:', {
-                id: docSnapshot.id,
-                ...data
-            });
-            
             allRegistrations.push({
                 id: docSnapshot.id,
                 ...data
@@ -64,7 +95,7 @@ async function loadRegistrations() {
             return 0;
         });
 
-        console.log('All registrations loaded:', allRegistrations);
+        console.log('All registrations loaded:', allRegistrations.length);
 
         updateStats();
         updateEventCounts();
@@ -72,11 +103,8 @@ async function loadRegistrations() {
         
     } catch (error) {
         console.error('Error loading registrations:', error);
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
-        console.error('Full error:', error);
         
-        let errorMessage = 'Error loading data. Please check:';
+        let errorMessage = 'Error loading data.';
         if (error.code === 'permission-denied') {
             errorMessage = 'Permission denied. Please check Firestore security rules.';
         } else if (error.code === 'unavailable') {
@@ -95,56 +123,36 @@ async function loadRegistrations() {
 // UPDATE STATISTICS
 // ============================================================
 function updateStats() {
-    console.log('Updating stats...');
-    
     const total = allRegistrations.length;
     const approved = allRegistrations.filter(r => r.status === 'approved').length;
     const pending = allRegistrations.filter(r => r.status === 'pending' || !r.status).length;
-    
-    // Calculate revenue
-    let revenue = 0;
-    allRegistrations.forEach(reg => {
-        if (reg.status === 'approved' && reg.registrationFee) {
-            const feeString = String(reg.registrationFee).replace('₹', '').replace(',', '').trim();
-            const fee = parseInt(feeString);
-            if (!isNaN(fee)) {
-                revenue += fee;
-            }
-        }
-    });
-
-    console.log('Stats:', { total, approved, pending, revenue });
 
     const totalEl = document.getElementById('totalRegistrations');
     const approvedEl = document.getElementById('approvedCount');
     const pendingEl = document.getElementById('pendingCount');
-    const revenueEl = document.getElementById('totalRevenue');
 
     if (totalEl) totalEl.textContent = total;
     if (approvedEl) approvedEl.textContent = approved;
     if (pendingEl) pendingEl.textContent = pending;
-    if (revenueEl) revenueEl.textContent = `₹${revenue.toLocaleString()}`;
 }
 
 // ============================================================
 // UPDATE EVENT COUNTS
 // ============================================================
 function updateEventCounts() {
-    console.log('Updating event counts...');
-    
     const eventMappings = {
         'Robowar': 'robowar',
         'ACME': 'acme',
-        'Bridge Modelling': 'bridge-modelling',
-        'Automotive Biz Conclave': 'automotive-biz-conclave',
-        'Reverse Marketing': 'reverse-marketing',
-        'MUN (ISTE)': 'mun-iste',
+        'Bridge Modelling': 'bridge',
+        'Automotive Biz Conclave': 'automotive',
+        'Reverse Marketing': 'marketing',
+        'MUN (ISTE)': 'mun',
         'Debate': 'debate',
-        'Prompt Writing': 'prompt-writing',
-        'Program Debugging': 'program-debugging',
-        'Circuit Designing': 'circuit-designing',
-        'AutoCAD Competition': 'autocad-competition',
-        'AI Workshop': 'ai-workshop'
+        'Prompt Writing': 'prompt',
+        'Program Debugging': 'debug',
+        'Circuit Designing': 'circuit',
+        'AutoCAD Competition': 'autocad',
+        'AI Workshop': 'workshop'
     };
 
     // Update "All Events" count
@@ -158,12 +166,8 @@ function updateEventCounts() {
         const count = allRegistrations.filter(r => r.event === eventName).length;
         const countElement = document.getElementById(`count-${eventKey}`);
         
-        console.log(`Event: ${eventName}, Count: ${count}, Element ID: count-${eventKey}`);
-        
         if (countElement) {
             countElement.textContent = count;
-        } else {
-            console.warn(`Count element not found for: count-${eventKey}`);
         }
     });
 }
@@ -171,9 +175,7 @@ function updateEventCounts() {
 // ============================================================
 // FILTER BY EVENT
 // ============================================================
-window.filterByEvent = function(eventName) {
-    console.log('Filtering by event:', eventName);
-    
+export function filterByEvent(eventName) {
     currentFilter = eventName;
     
     // Update active button
@@ -194,7 +196,6 @@ window.filterByEvent = function(eventName) {
         document.getElementById('selectedEventTitle').innerHTML = `${eventName} <span class="gold-accent">Registrations</span>`;
     }
 
-    console.log('Filtered registrations:', filtered.length);
     displayRegistrations(filtered);
 }
 
@@ -202,8 +203,6 @@ window.filterByEvent = function(eventName) {
 // DISPLAY REGISTRATIONS IN TABLE
 // ============================================================
 function displayRegistrations(registrations) {
-    console.log('Displaying registrations:', registrations.length);
-    
     const tableBody = document.getElementById('tableBody');
     
     if (!tableBody) {
@@ -218,9 +217,7 @@ function displayRegistrations(registrations) {
 
     tableBody.innerHTML = '';
 
-    registrations.forEach((reg, index) => {
-        console.log(`Processing registration ${index + 1}:`, reg);
-        
+    registrations.forEach((reg) => {
         const row = document.createElement('tr');
         row.setAttribute('data-id', reg.id);
         
@@ -252,16 +249,16 @@ function displayRegistrations(registrations) {
                 </span>
             </td>
             <td>
-                <button class="action-btn view-btn" onclick="viewDetails('${reg.id}')">
+                <button class="action-btn view-btn" onclick="window.viewDetails('${reg.id}')">
                     <i class="fas fa-eye"></i> View
                 </button>
                 ${status !== 'approved' ? `
-                    <button class="action-btn approve-btn" onclick="updateStatus('${reg.id}', 'approved')">
+                    <button class="action-btn approve-btn" onclick="window.updateStatus('${reg.id}', 'approved')">
                         <i class="fas fa-check"></i>
                     </button>
                 ` : ''}
                 ${status !== 'rejected' ? `
-                    <button class="action-btn reject-btn" onclick="updateStatus('${reg.id}', 'rejected')">
+                    <button class="action-btn reject-btn" onclick="window.updateStatus('${reg.id}', 'rejected')">
                         <i class="fas fa-times"></i>
                     </button>
                 ` : ''}
@@ -270,8 +267,6 @@ function displayRegistrations(registrations) {
 
         tableBody.appendChild(row);
     });
-    
-    console.log('Table updated with', registrations.length, 'rows');
 }
 
 // ============================================================
@@ -294,7 +289,7 @@ function showNoData(message) {
 // ============================================================
 // VIEW DETAILS MODAL
 // ============================================================
-window.viewDetails = function(registrationId) {
+export function viewDetails(registrationId) {
     const registration = allRegistrations.find(r => r.id === registrationId);
     if (!registration) {
         console.error('Registration not found:', registrationId);
@@ -380,7 +375,7 @@ window.viewDetails = function(registrationId) {
 // ============================================================
 // CLOSE DETAILS MODAL
 // ============================================================
-window.closeDetailsModal = function() {
+export function closeDetailsModal() {
     document.getElementById('detailsModal').style.display = 'none';
     currentRegistrationId = null;
 }
@@ -388,7 +383,7 @@ window.closeDetailsModal = function() {
 // ============================================================
 // UPDATE STATUS
 // ============================================================
-window.updateStatus = async function(registrationId, newStatus) {
+export async function updateStatus(registrationId, newStatus) {
     try {
         console.log(`Updating status for ${registrationId} to ${newStatus}`);
         
@@ -421,17 +416,17 @@ window.updateStatus = async function(registrationId, newStatus) {
 // ============================================================
 // APPROVE/REJECT FROM MODAL
 // ============================================================
-window.approveFromModal = async function() {
+export function approveFromModal() {
     if (currentRegistrationId) {
-        await updateStatus(currentRegistrationId, 'approved');
+        updateStatus(currentRegistrationId, 'approved');
         closeDetailsModal();
     }
 }
 
-window.rejectFromModal = async function() {
+export function rejectFromModal() {
     if (currentRegistrationId) {
         if (confirm('Are you sure you want to reject this registration?')) {
-            await updateStatus(currentRegistrationId, 'rejected');
+            updateStatus(currentRegistrationId, 'rejected');
             closeDetailsModal();
         }
     }
@@ -440,7 +435,7 @@ window.rejectFromModal = async function() {
 // ============================================================
 // SEARCH TABLE
 // ============================================================
-window.searchTable = function() {
+function searchTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     
     const filtered = allRegistrations.filter(reg => {
@@ -467,7 +462,7 @@ window.searchTable = function() {
 // ============================================================
 // EXPORT TO CSV
 // ============================================================
-window.exportToCSV = function() {
+export function exportToCSV() {
     if (allRegistrations.length === 0) {
         alert('No data to export');
         return;
@@ -520,7 +515,7 @@ window.exportToCSV = function() {
 // ============================================================
 // REFRESH DATA
 // ============================================================
-window.refreshData = async function() {
+export async function refreshData() {
     const refreshBtn = document.querySelector('.refresh-btn i');
     if (refreshBtn) {
         refreshBtn.classList.add('fa-spin');
@@ -536,17 +531,11 @@ window.refreshData = async function() {
 }
 
 // ============================================================
-// LOGOUT
-// ============================================================
-window.logout = function() {
-    if (confirm('Are you sure you want to logout?')) {
-        window.location.href = 'index.html';
-    }
-}
-
-// ============================================================
 // BACKGROUND CANVAS ANIMATION
 // ============================================================
+let particlesArray = [];
+let animationFrameId = null;
+
 function createBackgroundAnimation() {
     const canvas = document.getElementById('bgCanvas');
     if (!canvas) return;
@@ -554,8 +543,6 @@ function createBackgroundAnimation() {
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    
-    let particlesArray = [];
     
     class Particle {
         constructor() {
@@ -602,30 +589,29 @@ function createBackgroundAnimation() {
             particle.update();
             particle.draw();
         });
-        requestAnimationFrame(animateParticles);
+        animationFrameId = requestAnimationFrame(animateParticles);
     }
-    
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        initParticles();
-    });
     
     initParticles();
     animateParticles();
 }
 
-// Close modal when clicking outside
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('detailsModal');
-    if (e.target === modal) {
-        closeDetailsModal();
+function handleResize() {
+    const canvas = document.getElementById('bgCanvas');
+    if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
-});
+}
 
-// Close modal with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeDetailsModal();
-    }
-});
+// ============================================================
+// EXPOSE FUNCTIONS TO WINDOW FOR HTML ONCLICK HANDLERS
+// ============================================================
+window.viewDetails = viewDetails;
+window.updateStatus = updateStatus;
+window.closeDetailsModal = closeDetailsModal;
+window.approveFromModal = approveFromModal;
+window.rejectFromModal = rejectFromModal;
+window.filterByEvent = filterByEvent;
+window.exportToCSV = exportToCSV;
+window.refreshData = refreshData;   

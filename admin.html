@@ -528,16 +528,24 @@
         }
 
         // Show dashboard page
-        function showDashboardPage(user) {
-            loginPage.classList.remove('active');
-            dashboardPage.classList.add('active');
-            document.getElementById('adminEmail').textContent = user.email;
-            
-            // Load admin dashboard functionality
-            import('./admin.js').catch(error => {
-                console.error('Error loading admin.js:', error);
-            });
-        }
+     // Show dashboard page
+function showDashboardPage(user) {
+    loginPage.classList.remove('active');
+    dashboardPage.classList.add('active');
+    document.getElementById('adminEmail').textContent = user.email;
+    
+    // Load admin dashboard functionality
+    import('./admin.js')
+        .then(module => {
+            // Manually trigger data loading since DOMContentLoaded already fired
+            if (module.initializeDashboard) {
+                module.initializeDashboard();
+            }
+        })
+        .catch(error => {
+            console.error('Error loading admin.js:', error);
+        });
+}
 
         // Google Sign In Handler
         document.getElementById('googleSignInBtn').addEventListener('click', async () => {
