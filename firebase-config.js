@@ -46,9 +46,12 @@ const db = getFirestore(app);
 // HARDCODED ALLOWED ADMIN EMAILS
 // ============================================================
 const ALLOWED_ADMINS = [
-    'admin@colloquium.com',
-    'organizer@colloquium.com',
-    'coordinator@colloquium.com',
+    'pjneeraj6002@gmail.com',
+    'jasiansari@ieee.org',
+    'vigneshnarrayan@ieee.org',
+    'thahir05ae@gmail.com',
+    'adithyanath.s10b@gmail.com',
+    'neerajj6002@gmail.com'
     // Add more authorized emails here
 ];
 
