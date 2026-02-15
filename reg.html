@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration | Colloquium 2026</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reg.css">
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <canvas id="bgCanvas"></canvas>
+
+    <nav class="glass-nav">
+        <div class="logo">Colloquium 2026</div>
+        <a href="event.html" class="accent-btn">Back to Events</a>
+    </nav>
+
+    <section id="register" class="register-section">
+        <div class="glass-form-container">
+            <h2>Event Registration</h2>
+            
+            <!-- Registration Form -->
+            <form id="registrationForm">
+                
+                <div class="input-group">
+                    <input type="text" id="fullName" name="fullName" placeholder="Full Name" required onkeyup="updatePaymentLink()">
+                </div>
+
+                <div class="input-group">
+                    <input type="email" id="email" name="email" placeholder="Email Address" required>
+                </div>
+                
+                <div class="input-group">
+                    <input type="tel" id="phone" name="phone" placeholder="Phone Number" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number">
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" id="college" name="college" placeholder="College Name" required>
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" id="department" name="department" placeholder="Department & Semester" required>
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" id="eventField" name="event" placeholder="Loading event..." readonly required class="gold-input">
+                </div>
+
+                <div class="input-group">
+                    <textarea id="teamDetails" name="teamDetails" placeholder="Team Details (if applicable) - Enter team member names and contact details" rows="3"></textarea>
+                </div>
+
+                <div class="payment-box">
+                    <p>Registration Fee: <span id="payAmount" class="gold-accent">₹0</span></p>
+                    
+                    <!-- Mobile Payment (UPI Link) -->
+                    <div id="mobile-payment" class="payment-method">
+                        <a id="upiLink" href="javascript:void(0)" class="accent-btn-full">
+                            <i class="fas fa-mobile-alt"></i> Pay via UPI App
+                        </a>
+                        <small style="font-size:0.8rem; color:#aaa; margin-top:8px; display:block;">
+                            <i class="fas fa-info-circle"></i> Payment link updates with your name
+                        </small>
+                    </div>
+
+                    <!-- Desktop Payment (QR Code) -->
+                    <div id="desktop-payment" class="payment-method" style="display:none;">
+                        <div class="qr-container">
+                            <img id="qrCode" src="https://via.placeholder.com/200?text=Loading..." alt="Scan to Pay" class="clean-qr">
+                        </div>
+                        <small id="qrText" style="color: #ccc; margin-top: 8px; display:block; font-size: 0.85rem;">
+                            <i class="fas fa-qrcode"></i> Scan with any UPI app (GPay, PhonePe, Paytm)
+                        </small>
+                    </div>
+
+                    <div class="input-group" style="margin-top:20px;">
+                        <input type="text" id="transactionId" name="transactionId" placeholder="Enter Transaction ID / UTR Number" required>
+                    </div>
+                    
+                    <small style="color: #aaa; font-size: 0.8rem; display: block; margin-top: 10px;">
+                        <i class="fas fa-shield-alt"></i> Payment is required to complete registration
+                    </small>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-check-circle"></i> Complete Registration
+                </button>
+            </form>
+            
+            <div class="back-link">
+                <a href="event.html"><i class="fas fa-arrow-left"></i> Back to Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content" style="max-width: 400px; text-align: center; padding: 40px;">
+            <div style="font-size: 60px; color: #C5A059; margin-bottom: 20px;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 style="color: #C5A059; margin-bottom: 15px;">Registration Successful! 🎉</h2>
+            <p style="color: #ccc; margin-bottom: 20px;">
+                Your registration has been submitted successfully. You will receive a confirmation email shortly.
+            </p>
+            <p style="color: #fff; font-weight: 500;">Thank you for registering!</p>
+            <button onclick="closeSuccessModal()" class="accent-btn" style="margin-top: 20px;">
+                Back to Events
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content" style="max-width: 400px; text-align: center; padding: 40px;">
+            <div style="font-size: 60px; color: #ff4444; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h2 style="color: #ff4444; margin-bottom: 15px;">Registration Failed</h2>
+            <p id="errorMessage" style="color: #ccc; margin-bottom: 20px;">
+                Something went wrong. Please try again.
+            </p>
+            <button onclick="closeErrorModal()" class="accent-btn" style="margin-top: 20px;">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="modal-overlay" style="display:none;">
+        <div style="text-align: center;">
+            <div class="spinner" style="border: 4px solid rgba(197, 160, 89, 0.3); border-top: 4px solid #C5A059; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+            <p style="color: #C5A059; margin-top: 20px; font-size: 18px;">Submitting your registration...</p>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <!-- Include Firebase config and registration script as modules -->
+    <script type="module" src="reg.js"></script>
+</body>
+</html>
