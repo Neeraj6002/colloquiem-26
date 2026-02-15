@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Register for Colloquium 2026 events. Fill in your details and select your preferred competition.">
+    <title>Register | Colloquium 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="assects/Frame 48095814.png" type="image/png">
+    
+    <style>
+        /* Loader Styles - Inline to ensure they load immediately */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .loader-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+            animation: loaderPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes loaderPulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.1); 
+                opacity: 0.7; 
+            }
+        }
+        
+        .loader-progress-bar {
+            width: 250px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .loader-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #C5A059, #FFD700, #C5A059);
+            background-size: 200% 100%;
+            width: 0%;
+            animation: loaderProgress 2s ease-out forwards, loaderShine 1.5s linear infinite;
+            border-radius: 4px;
+        }
+        
+        @keyframes loaderProgress {
+            to { width: 100%; }
+        }
+        
+        @keyframes loaderShine {
+            to { background-position: 200% center; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ─── LOADER ─── -->
+    <div id="loader" class="loader-wrapper">
+        <div class="loader-content">
+            <img src="assects/Frame 48095814.png" alt="Colloquium Loader" class="loader-logo">
+            <div class="loader-progress-bar">
+                <div class="loader-progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── NAVBAR ─── -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand" style="display: flex; align-items: center; gap: 15px;">
+                <a href="index.html" class="nav-logo"><img src="assects/Frame 48095814.png" alt="Colloquium Logo"></a>
+                <img src="assects/header 4.png" alt="IEEE SB MCET" style="height: 50px; width: auto;">
+                <img src="assects/header 5.png" alt="Header 5" style="height: 50px; width: auto;">
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="register.html" class="nav-cta active">Register Now</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ─── PARTICLE CANVAS ─── -->
+    <canvas id="particleCanvas"
+        style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+    <!-- ─── REGISTRATION FORM ─── -->
+    <section class="register-section">
+        <div class="container">
+            <div class="register-card fade-up">
+                <h2>Register for <span class="highlight">Colloquium</span></h2>
+                <p class="reg-subtitle">Fill in your details below to secure your spot. Choose your event and get ready
+                    to compete!</p>
+
+                <form id="registrationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="college">College / Institution</label>
+                            <input type="text" id="college" placeholder="Your college name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <input type="text" id="department" placeholder="e.g. Computer Science" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year of Study</label>
+                            <select id="year" required>
+                                <option value="" disabled selected>Select year</option>
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventField">Select Event</label>
+                        <select id="eventField" required>
+                            <option value="" disabled selected>Choose an event</option>
+                            <option value="Robowar" data-price="2000">🤖 Robowar — ₹2,000</option>
+                            <option value="ACME" data-price="200">💻 ACME — ₹200</option>
+                            <option value="Bridge Modelling" data-price="250">🌉 Bridge Modelling — ₹250</option>
+                            <option value="Automotive Biz Conclave" data-price="200">🚗 Automotive Biz Conclave — ₹200
+                            </option>
+                            <option value="Reverse Marketing" data-price="250">🔄 Reverse Marketing — ₹250</option>
+                            <option value="Model United Nations" data-price="150">🌍 Model United Nations (ISTE) — ₹150
+                            </option>
+                            <option value="Debate Championship" data-price="100">🎤 Debate Championship — ₹100</option>
+                            <option value="AI Prompt Engineering" data-price="100">🤖 AI Prompt Engineering — ₹100
+                            </option>
+                            <option value="Debug Hunt" data-price="100">🐛 Debug Hunt — ₹100</option>
+                            <option value="Circuit Designing Challenge" data-price="100">⚡ Circuit Designing Challenge —
+                                ₹100</option>
+                            <option value="AutoCAD Championship" data-price="100">📐 AutoCAD Championship — ₹100
+                            </option>
+                            <option value="AI ML Workshop" data-price="300">🧠 AI & ML Workshop — ₹300</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teamDetails">Team Members (if applicable)</label>
+                        <textarea id="teamDetails"
+                            placeholder="List team member names, one per line (leave blank for solo events)"
+                            rows="3"></textarea>
+                    </div>
+
+                    <!-- ─── PAYMENT SECTION ─── -->
+                    <div id="paymentSection" class="form-group payment-section hidden">
+                        <h3>Payment Details</h3>
+                        <p class="payment-amount">Amount to Pay: <strong id="payAmount">₹0</strong></p>
+
+                        <!-- Mobile Payment -->
+                        <div id="mobile-payment" style="display: none;">
+                            <a id="upiLink" href="#" class="btn-primary btn-upi">
+                                Pay via UPI <i class="fas fa-wallet"></i>
+                            </a>
+                        </div>
+
+                        <!-- Desktop Payment -->
+                        <div id="desktop-payment" style="display: none;">
+                            <div class="qr-container">
+                                <img id="qrCode" src="" alt="Payment QR Code" style="max-width: 200px;">
+                                <p class="qr-instruction">Scan to Pay via UPI</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 24px; text-align: left;">
+                            <label for="transactionId">Transaction ID (UTR)</label>
+                            <input type="text" id="transactionId" placeholder="Enter UPI Transaction ID" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        Submit Registration <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── LOADING SPINNER ─── -->
+    <div id="loadingSpinner" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="spinner"></div>
+            <p>Processing your registration...</p>
+        </div>
+    </div>
+
+    <!-- ─── SUCCESS MODAL ─── -->
+    <div id="successModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <button type="button" onclick="closeSuccessModal()" class="modal-close-btn" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3>Registration Successful</h3>
+            <p>Your registration has been submitted successfully. Please keep your transaction ID safe.</p>
+            <button type="button" onclick="closeSuccessModal()" class="btn-primary">Done</button>
+        </div>
+    </div>
+
+    <!-- ─── ERROR MODAL ─── -->
+    <div id="errorModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <button type="button" onclick="closeErrorModal()" class="modal-close-btn" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon error">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Error</h3>
+            <p id="errorMessage">Something went wrong. Please try again.</p>
+            <button type="button" onclick="closeErrorModal()" class="btn-primary">Close</button>
+        </div>
+    </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">COLLOQUIUM</a>
+                    <p>A premier technical symposium bringing together innovation, competition, and collaboration. March
+                        6, 2026.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                        <img src="assects/header 2.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                        <img src="assects/header 3.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                        <img src="assects/header 4.png" alt="Partner Logo"
+                            style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="events.html">Events</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Events</h4>
+                    <a href="register.html?event=Robowar">Robowar</a>
+                    <a href="register.html?event=ACME">ACME</a>
+                    <a href="register.html?event=Bridge%20Modelling">Bridge Modelling</a>
+                    <a href="register.html?event=AI%20Prompt%20Engineering">AI Prompt Engineering</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Refund Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Colloquium. All rights reserved.</p>
+                <p>Designed with <i class="fas fa-heart" style="color:var(--accent-orange);"></i> by IEEE SB MCET
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ─── LOADER SCRIPT (Must run first) ─── -->
+    <script>
+        // Hide loader when page fully loads
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                }
+            }, 1500); // Show for 1.5 seconds after page load
+        });
+        
+        // Also hide loader if it takes too long (fallback)
+        setTimeout(function() {
+            const loader = document.getElementById('loader');
+            if (loader && !loader.classList.contains('hidden')) {
+                loader.classList.add('hidden');
+            }
+        }, 5000); // Max 5 seconds
+    </script>
+
+    <script src="script.js"></script>
+    <script type="module" src="reg.js"></script>
+</body>
+
+</html>

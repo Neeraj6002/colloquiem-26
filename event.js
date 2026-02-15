@@ -506,7 +506,7 @@ window.openRegister = function(eventName, price) {
     sessionStorage.setItem('eventPrice', cleanPrice);
     
     // Redirect to registration page
-    window.location.href = 'reg.html';
+    window.location.href = 'register.html';
 };
 
 // ============================================================

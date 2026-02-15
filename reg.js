@@ -11,6 +11,54 @@ let submitted = false;
 const UPI_ID = "9207796593@paytm"; // Replace with your actual UPI ID
 const MERCHANT_NAME = "Colloquium 2026";
 
+
+// ============================================================
+// PAGE LOADER SCRIPT
+// Add this to your script.js file at the TOP
+// ============================================================
+
+/**
+ * Hide page loader when content is ready
+ * This runs automatically on page load
+ */
+(function initPageLoader() {
+    
+    // Function to hide the loader
+    function hideLoader() {
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.classList.add('hidden');
+            console.log('Loader hidden');
+        }
+    }
+    
+    // Hide loader when page fully loads
+    window.addEventListener('load', function() {
+        console.log('Page loaded, hiding loader in 1.5s');
+        setTimeout(hideLoader, 1500); // Show for 1.5 seconds after page load
+    });
+    
+    // Fallback: Hide loader after maximum time
+    setTimeout(function() {
+        const loader = document.getElementById('loader');
+        if (loader && !loader.classList.contains('hidden')) {
+            console.log('Fallback: Force hiding loader after 5s');
+            hideLoader();
+        }
+    }, 5000); // Max 5 seconds
+    
+    // Hide loader if DOM is already loaded (fast page load)
+    if (document.readyState === 'complete') {
+        console.log('Page already loaded, hiding loader immediately');
+        setTimeout(hideLoader, 500);
+    }
+    
+})();
+
+// Export if using modules
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { initPageLoader };
+}
 // ============================================================
 // LOAD EVENT DATA ON PAGE LOAD
 // ============================================================
@@ -22,11 +70,16 @@ window.addEventListener('DOMContentLoaded', function() {
     // Get form elements
     const eventField = document.getElementById('eventField');
     const payAmount = document.getElementById('payAmount');
+    const paymentSection = document.getElementById('paymentSection');
     
     // If event data exists, populate the form
     if (selectedEvent && eventPrice) {
         if (eventField) {
             eventField.value = selectedEvent;
+            // Show payment section when event is pre-selected
+            if (paymentSection) {
+                paymentSection.classList.remove('hidden');
+            }
         }
         
         if (payAmount) {
@@ -35,15 +88,49 @@ window.addEventListener('DOMContentLoaded', function() {
         
         // Update payment links with initial data
         updatePaymentLink();
-    } else {
-        // No event selected, redirect back to events page
-        alert('Please select an event first');
-        window.location.href = 'event.html';
+    }
+    
+    // Add event listener for event selection
+    if (eventField) {
+        eventField.addEventListener('change', handleEventChange);
+    }
+    
+    // Add event listeners for name changes to update payment link
+    const fullName = document.getElementById('fullName');
+    if (fullName) {
+        fullName.addEventListener('input', updatePaymentLink);
     }
     
     // Detect device type and show appropriate payment method
     detectDeviceAndShowPayment();
 });
+
+// ============================================================
+// HANDLE EVENT SELECTION CHANGE
+// ============================================================
+function handleEventChange() {
+    const eventField = document.getElementById('eventField');
+    const paymentSection = document.getElementById('paymentSection');
+    const payAmount = document.getElementById('payAmount');
+    
+    if (!eventField || !paymentSection) return;
+    
+    const selectedOption = eventField.options[eventField.selectedIndex];
+    const price = selectedOption.getAttribute('data-price');
+    
+    if (price) {
+        // Show payment section
+        paymentSection.classList.remove('hidden');
+        
+        // Update amount
+        if (payAmount) {
+            payAmount.textContent = `₹${price}`;
+        }
+        
+        // Update payment link
+        updatePaymentLink();
+    }
+}
 
 // ============================================================
 // DETECT DEVICE AND SHOW PAYMENT METHOD
@@ -67,7 +154,7 @@ function detectDeviceAndShowPayment() {
 // ============================================================
 // UPDATE PAYMENT LINK
 // ============================================================
-window.updatePaymentLink = function() {
+function updatePaymentLink() {
     const fullName = document.getElementById('fullName');
     const eventField = document.getElementById('eventField');
     const payAmount = document.getElementById('payAmount');
@@ -90,12 +177,15 @@ window.updatePaymentLink = function() {
         upiLink.href = upiUrl;
     }
     
-    // Generate QR code URL
+    // Generate QR code URL using Google Charts API
     if (qrCode) {
         const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chl=${encodeURIComponent(upiUrl)}&chs=200x200&choe=UTF-8`;
         qrCode.src = qrUrl;
     }
 }
+
+// Make updatePaymentLink available globally
+window.updatePaymentLink = updatePaymentLink;
 
 // ============================================================
 // FORM SUBMISSION TO FIREBASE
@@ -108,8 +198,37 @@ if (registrationForm) {
         
         // Validate form
         const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const college = document.getElementById('college').value.trim();
+        const department = document.getElementById('department').value.trim();
+        const year = document.getElementById('year').value;
+        const eventField = document.getElementById('eventField').value;
+        const transactionId = document.getElementById('transactionId').value.trim();
+        
+        // Validation checks
         if (fullName.length < 3) {
-            showError('Please enter a valid full name');
+            showError('Please enter a valid full name (at least 3 characters)');
+            return;
+        }
+        
+        if (!email.includes('@')) {
+            showError('Please enter a valid email address');
+            return;
+        }
+        
+        if (phone.length < 10) {
+            showError('Please enter a valid phone number');
+            return;
+        }
+        
+        if (!eventField) {
+            showError('Please select an event');
+            return;
+        }
+        
+        if (transactionId.length < 6) {
+            showError('Please enter a valid transaction ID (UTR)');
             return;
         }
         
@@ -118,14 +237,15 @@ if (registrationForm) {
         
         // Get form data
         const formData = {
-            fullName: document.getElementById('fullName').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            college: document.getElementById('college').value,
-            department: document.getElementById('department').value,
-            event: document.getElementById('eventField').value,
+            fullName: fullName,
+            email: email,
+            phone: phone,
+            college: college,
+            department: department,
+            year: year,
+            event: eventField,
             teamDetails: document.getElementById('teamDetails').value || 'N/A',
-            transactionId: document.getElementById('transactionId').value,
+            transactionId: transactionId,
             registrationFee: document.getElementById('payAmount').textContent,
             timestamp: serverTimestamp(),
             status: 'pending' // You can update this after payment verification
@@ -146,6 +266,15 @@ if (registrationForm) {
             // Clear session storage
             sessionStorage.removeItem('selectedEvent');
             sessionStorage.removeItem('eventPrice');
+            
+            // Reset form
+            registrationForm.reset();
+            
+            // Hide payment section
+            const paymentSection = document.getElementById('paymentSection');
+            if (paymentSection) {
+                paymentSection.classList.add('hidden');
+            }
             
             // Show success modal
             showSuccess();
@@ -191,7 +320,8 @@ window.closeSuccessModal = function() {
         successModal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
-    window.location.href = 'event.html';
+    // Redirect to events page or home
+    window.location.href = 'events.html';
 }
 
 function showError(message) {
@@ -218,7 +348,7 @@ window.closeErrorModal = function() {
 // ============================================================
 // BACKGROUND CANVAS ANIMATION
 // ============================================================
-const canvas = document.getElementById('bgCanvas');
+const canvas = document.getElementById('particleCanvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
