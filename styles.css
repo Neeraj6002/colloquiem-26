@@ -260,6 +260,9 @@ img {
     animation: shimmerText 5s ease-in-out infinite;
     text-transform: uppercase;
 }
+.nav-logo a{
+    width: 600px;
+}
 
 .footer-brand .nav-logo {
     width: auto;
@@ -1544,6 +1547,7 @@ img {
     display: flex;
     gap: 12px;
     margin-top: 24px;
+    
 }
 
 .social-links a {
@@ -1559,6 +1563,7 @@ img {
     transition: var(--transition);
     margin-bottom: 0;
     color: var(--text-secondary);
+    margin-left: 15px;
 }
 
 .social-links a:hover {
@@ -1936,6 +1941,7 @@ img {
 
     .about-stats {
         justify-content: center;
+        
     }
 
     .about-collab {
@@ -1967,7 +1973,7 @@ img {
     }
 
     .about-feature-card {
-        margin: 0 auto;
+        margin-right: 15px;
     }
 
     .carousel-3d-card {
@@ -2157,6 +2163,9 @@ img {
     .hero-subtitle {
         font-size: 0.95rem;
     }
+    .about-description {
+    margin-right: 15px;
+}
 }
 
 
