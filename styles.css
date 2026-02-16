@@ -36,7 +36,7 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
-    /* Prevent horizontal scrollbar/white bar */
+    
 }
 
 body {
@@ -48,7 +48,7 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     width: 100%;
-    /* Ensure full width */
+    
 }
 
 body::before {
@@ -95,7 +95,7 @@ body::after {
     }
 }
 
-/* â”€â”€â”€ LOADING SCREEN â”€â”€â”€ */
+
 .loader-wrapper {
     position: fixed;
     top: 0;
@@ -197,7 +197,7 @@ img {
     padding: 0 24px;
 }
 
-/* â”€â”€â”€ ORNAMENTAL DIVIDER â”€â”€â”€ */
+
 .ornament {
     display: flex;
     align-items: center;
@@ -219,7 +219,7 @@ img {
     font-size: 0.7rem;
 }
 
-/* â”€â”€â”€ NAVBAR â”€â”€â”€ */
+
 .navbar {
     position: fixed;
     top: 0;
@@ -263,7 +263,7 @@ img {
 
 .footer-brand .nav-logo {
     width: auto;
-    /* Allow full text to show in footer */
+    
     display: inline-block;
     margin-bottom: 8px;
 }
@@ -369,7 +369,7 @@ img {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* â”€â”€â”€ HERO SECTION â”€â”€â”€ */
+
 .hero {
     min-height: 100vh;
     display: flex;
@@ -529,6 +529,14 @@ img {
     filter: drop-shadow(0 0 40px rgba(201, 168, 76, 0.25));
 }
 
+.hero h1 .hero-year {
+    letter-spacing: 2px;
+}
+
+.hero h1 .hero-year-k {
+    font-size: 0.9em;
+}
+
 @keyframes shimmerGold {
 
     0%,
@@ -571,7 +579,7 @@ img {
     font-size: 0.6rem;
 }
 
-/* â”€â”€â”€ COUNTDOWN â”€â”€â”€ */
+
 .countdown-wrapper {
     margin-bottom: 48px;
 }
@@ -757,7 +765,7 @@ img {
     box-shadow: 0 4px 30px rgba(201, 168, 76, 0.1);
 }
 
-/* â”€â”€â”€ ABOUT SECTION â”€â”€â”€ */
+
 .section {
     padding: 100px 0;
     position: relative;
@@ -799,7 +807,7 @@ img {
     line-height: 1.8;
 }
 
-/* â”€â”€â”€ ABOUT LAYOUT â”€â”€â”€ */
+
 .about-layout {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
@@ -830,13 +838,110 @@ img {
     gap: 32px;
 }
 
+.about-collab {
+    margin-top: 46px;
+    width: 100%;
+}
+
+.about-collab-card {
+    display: grid;
+    grid-template-columns: 168px minmax(0, 1fr);
+    gap: 30px;
+    align-items: center;
+    width: 100%;
+    padding: 28px 34px;
+    border-radius: 22px;
+    border: 1px solid rgba(201, 168, 76, 0.28);
+    background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 45%),
+        linear-gradient(160deg, rgba(30, 26, 50, 0.96) 0%, rgba(21, 19, 37, 0.97) 100%);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.about-collab-label {
+    font-size: 0.76rem;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--accent-gold-light);
+    margin: 0;
+    font-weight: 700;
+}
+
+.about-collab-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 152px;
+    height: 152px;
+    border-radius: 16px;
+    border: 1px solid rgba(201, 168, 76, 0.38);
+    background: rgba(0, 0, 0, 0.26);
+    transition: var(--transition);
+}
+
+.about-collab-logo img {
+    display: block;
+    width: auto;
+    height: 112px;
+}
+
+.about-collab-logo:hover {
+    border-color: rgba(201, 168, 76, 0.62);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(201, 168, 76, 0.15);
+}
+
+.about-collab-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.about-collab-content h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    margin: 6px 0 10px;
+    color: var(--accent-gold-bright);
+    line-height: 1.2;
+}
+
+.about-collab-text {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.75;
+    max-width: 860px;
+}
+
+.about-collab-btn {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+    border: 1px solid rgba(201, 168, 76, 0.45);
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.9), rgba(145, 104, 28, 0.95));
+    transition: var(--transition);
+}
+
+.about-collab-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px var(--accent-glow);
+}
+
 .stat-item {
     text-align: center;
 }
 
 .stat-number {
     font-family: var(--font-display);
-    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-size: clamp(2.1rem, 3.4vw, 2.8rem);
     font-weight: 800;
     background: linear-gradient(180deg, var(--accent-gold-bright), var(--accent-gold));
     -webkit-background-clip: text;
@@ -847,7 +952,7 @@ img {
 }
 
 .stat-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -911,7 +1016,7 @@ img {
     line-height: 1.9;
 }
 
-/* â”€â”€â”€ 3D LINEAR CAROUSEL â”€â”€â”€ */
+
 .events-preview {
     overflow: hidden;
 }
@@ -929,7 +1034,7 @@ img {
     position: relative;
     height: 440px;
     perspective: 1500px;
-    /* Flatter perspective */
+    
     overflow: visible;
 }
 
@@ -965,7 +1070,7 @@ img {
 
 .carousel-3d-card.prev-1 {
     transform: translate(calc(-50% - 260px), -50%) scale(0.9) rotateY(5deg);
-    /* Subtle tilt */
+    
     opacity: 0.6;
     z-index: 5;
     pointer-events: auto;
@@ -981,7 +1086,7 @@ img {
 
 .carousel-3d-card.next-1 {
     transform: translate(calc(-50% + 260px), -50%) scale(0.9) rotateY(-5deg);
-    /* Subtle tilt */
+    
     opacity: 0.6;
     z-index: 5;
     pointer-events: auto;
@@ -995,9 +1100,9 @@ img {
     filter: brightness(0.4);
 }
 
-/* responsive adjustments for carousel */
 
-/* â”€â”€â”€ PAYMENT SECTION â”€â”€â”€ */
+
+
 .payment-section {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-glass);
@@ -1053,7 +1158,7 @@ img {
 
 #payBtn {
     display: none;
-    /* Hidden by default on PC */
+    
     margin: 16px auto 0;
     max-width: 250px;
     justify-content: center;
@@ -1074,7 +1179,7 @@ img {
     margin-top: 4px;
 }
 
-/* Mobile: Show Pay Button */
+
 @media (max-width: 768px) {
     #payBtn {
         display: inline-flex;
@@ -1085,7 +1190,7 @@ img {
         height: 340px;
     }
 
-    /* ... existing code ... */
+    
 
     .carousel-3d-stage {
         height: 380px;
@@ -1107,26 +1212,26 @@ img {
     }
 }
 
-/* ... existing code ... */
 
-/* â”€â”€â”€ EVENTS PAGE ALIGNMENT â”€â”€â”€ */
+
+
 .events-page-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    /* Better responsiveness */
+    
     gap: 32px;
     padding-bottom: 100px;
 }
 
 .event-full-card {
     height: 100%;
-    /* Ensure full height in grid */
+    
     display: flex;
     flex-direction: column;
-    /* ... rest of existing styles ... */
+    
 }
 
-/* ... existing code ... */
+
 
 .event-card-content {
     padding: 28px 24px 24px;
@@ -1134,12 +1239,12 @@ img {
     flex-direction: column;
     flex: 1;
     height: 100%;
-    /* Fill the container */
+    
 }
 
 .event-meta {
     margin-top: auto;
-    /* Push to bottom */
+    
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -1222,7 +1327,7 @@ img {
     box-shadow: 0 4px 20px rgba(201, 168, 76, 0.2);
 }
 
-/* â”€â”€â”€ CONTACT SECTION â”€â”€â”€ */
+
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1383,7 +1488,7 @@ img {
     gap: 16px;
 }
 
-/* â”€â”€â”€ FOOTER â”€â”€â”€ */
+
 .footer {
     border-top: 1px solid rgba(201, 168, 76, 0.08);
     padding: 60px 0 30px;
@@ -1480,7 +1585,7 @@ img {
     letter-spacing: 0.5px;
 }
 
-/* â”€â”€â”€ EVENTS PAGE â”€â”€â”€ */
+
 .page-header {
     padding: 150px 0 60px;
     text-align: center;
@@ -1594,10 +1699,10 @@ img {
     -webkit-box-orient: vertical;
     overflow: hidden;
     min-height: 5.1em;
-    /* Force 3 lines of space */
+    
 }
 
-/* Ensure meta section is always at the bottom with consistent spacing */
+
 .event-meta {
     margin-top: auto;
     display: flex;
@@ -1606,7 +1711,7 @@ img {
     padding-top: 20px;
     margin-bottom: 24px;
     border-top: 1px solid rgba(201, 168, 76, 0.15);
-    /* Slightly more visible */
+    
 }
 
 .event-meta-item {
@@ -1667,7 +1772,7 @@ img {
     box-shadow: 0 10px 35px rgba(201, 168, 76, 0.45), 0 0 60px rgba(201, 168, 76, 0.08);
 }
 
-/* â”€â”€â”€ REGISTRATION PAGE â”€â”€â”€ */
+
 .register-section {
     padding: 140px 0 100px;
     position: relative;
@@ -1723,7 +1828,7 @@ img {
     font-size: 0.9rem;
 }
 
-/* â”€â”€â”€ SCROLL ANIMATIONS â”€â”€â”€ */
+
 .fade-up {
     opacity: 0;
     transform: translateY(40px);
@@ -1735,7 +1840,7 @@ img {
     transform: translateY(0);
 }
 
-/* â”€â”€â”€ HIGHLIGHT TEXT â”€â”€â”€ */
+
 .highlight {
     background: linear-gradient(135deg,
             var(--accent-gold),
@@ -1752,7 +1857,7 @@ img {
     animation: shimmerGold 5s ease-in-out infinite;
 }
 
-/* â”€â”€â”€ SCROLLBAR â”€â”€â”€ */
+
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -1770,14 +1875,8 @@ img {
     background: rgba(201, 168, 76, 0.35);
 }
 
-/* â”€â”€â”€ RESPONSIVE â”€â”€â”€ */
-@media (max-width: 1024px) {
-    .footer-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
     .hamburger {
         display: flex;
     }
@@ -1801,7 +1900,15 @@ img {
     .nav-links.active {
         right: 0;
     }
+}
 
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
     .countdown {
         gap: 6px;
         flex-wrap: nowrap;
@@ -1829,6 +1936,34 @@ img {
 
     .about-stats {
         justify-content: center;
+    }
+
+    .about-collab {
+        margin-top: 32px;
+    }
+
+    .about-collab-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 22px 20px;
+        gap: 18px;
+    }
+
+    .about-collab-logo {
+        margin: 0 auto;
+    }
+
+    .about-collab-content {
+        align-items: center;
+    }
+
+    .about-collab-text {
+        margin: 0 auto;
+        font-size: 0.95rem;
+    }
+
+    .about-collab-btn {
+        margin-top: 12px;
     }
 
     .about-feature-card {
@@ -1925,23 +2060,32 @@ img {
         grid-template-columns: 1fr;
     }
 
-/* â”€â”€â”€ MOBILE LOGO TWEAKS â”€â”€â”€ */
+
     .nav-logo {
         width: 60px;
-        /* Smaller Colloq Logo */
+        
     }
 
     .nav-brand {
         gap: 10px !important;
-        /* Reduce gap */
+        
     }
 
-    .nav-brand img[alt="IEEE SB MCET"] {
+    .nav-brand img[alt="Header 5"] {
         height: 35px !important;
-        /* Smaller IEEE Logo */
+        
     }
 
-    /* Footer Logos Center on Mobile */
+    .about-collab-logo {
+        width: 112px;
+        height: 112px;
+    }
+
+    .about-collab-logo img {
+        height: 82px;
+    }
+
+    
     .footer-brand {
         display: flex;
         flex-direction: column;
@@ -1953,7 +2097,7 @@ img {
         margin-bottom: 12px;
     }
 
-    /* Better Spacing for Register Card on Mobile */
+    
     .register-card {
         padding: 24px 16px;
     }
@@ -1967,7 +2111,7 @@ img {
         height: 140px;
     }
 
-    /* Make UPI Button Full Width on Mobile */
+    
     #payBtn {
         width: 100%;
         max-width: none;
@@ -1976,10 +2120,10 @@ img {
         margin-bottom: 12px;
     }
 
-    /* QR Code Toggle Logic */
+    
     #qrCodeContainer {
         display: none;
-        /* Hidden by default on mobile */
+        
     }
 
     #qrCodeContainer.visible {
@@ -1994,17 +2138,17 @@ img {
         margin-bottom: 16px;
     }
 
-    /* Loader Fixes */
+    
     .loader-wrapper {
         inset: 0;
-        /* Ensure full coverage */
+        
     }
 
     .loader-logo {
         width: 100px;
     }
 
-    /* Hero Typography */
+    
     .hero h1 {
         font-size: 2.5rem;
         letter-spacing: 1px;
@@ -2015,7 +2159,7 @@ img {
     }
 }
 
-/* â ¬ â ¬ â ¬  SUCCESS MODAL â ¬ â ¬ â ¬  */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -2106,4 +2250,5 @@ img {
     width: 100%;
     justify-content: center;
 }
+
 
