@@ -11,19 +11,11 @@ let submitted = false;
 const UPI_ID = "9207796593@paytm"; // Replace with your actual UPI ID
 const MERCHANT_NAME = "Colloquium 2026";
 
-
 // ============================================================
 // PAGE LOADER SCRIPT
-// Add this to your script.js file at the TOP
 // ============================================================
-
-/**
- * Hide page loader when content is ready
- * This runs automatically on page load
- */
 (function initPageLoader() {
     
-    // Function to hide the loader
     function hideLoader() {
         const loader = document.getElementById('loader');
         if (loader) {
@@ -32,22 +24,19 @@ const MERCHANT_NAME = "Colloquium 2026";
         }
     }
     
-    // Hide loader when page fully loads
     window.addEventListener('load', function() {
         console.log('Page loaded, hiding loader in 1.5s');
-        setTimeout(hideLoader, 1500); // Show for 1.5 seconds after page load
+        setTimeout(hideLoader, 1500);
     });
     
-    // Fallback: Hide loader after maximum time
     setTimeout(function() {
         const loader = document.getElementById('loader');
         if (loader && !loader.classList.contains('hidden')) {
             console.log('Fallback: Force hiding loader after 5s');
             hideLoader();
         }
-    }, 5000); // Max 5 seconds
+    }, 5000);
     
-    // Hide loader if DOM is already loaded (fast page load)
     if (document.readyState === 'complete') {
         console.log('Page already loaded, hiding loader immediately');
         setTimeout(hideLoader, 500);
@@ -55,10 +44,36 @@ const MERCHANT_NAME = "Colloquium 2026";
     
 })();
 
-// Export if using modules
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { initPageLoader };
-}
+// ============================================================
+// PHONE NUMBER INPUT RESTRICTION
+// ============================================================
+window.addEventListener('DOMContentLoaded', function() {
+    const phoneInput = document.getElementById('phone');
+    
+    if (phoneInput) {
+        // Allow only numbers and limit to 10 digits
+        phoneInput.addEventListener('input', function(e) {
+            // Remove any non-numeric characters
+            let value = e.target.value.replace(/\D/g, '');
+            
+            // Limit to 10 digits
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+            }
+            
+            e.target.value = value;
+        });
+        
+        // Prevent non-numeric key presses
+        phoneInput.addEventListener('keypress', function(e) {
+            const char = String.fromCharCode(e.which);
+            if (!/[0-9]/.test(char)) {
+                e.preventDefault();
+            }
+        });
+    }
+});
+
 // ============================================================
 // LOAD EVENT DATA ON PAGE LOAD
 // ============================================================
@@ -67,23 +82,22 @@ window.addEventListener('DOMContentLoaded', function() {
     const selectedEvent = sessionStorage.getItem('selectedEvent');
     const eventPrice = sessionStorage.getItem('eventPrice');
     
-    // Get form elements
+    // Get form elements - FIXED: Changed to eventField
     const eventField = document.getElementById('eventField');
     const payAmount = document.getElementById('payAmount');
     const paymentSection = document.getElementById('paymentSection');
     
     // If event data exists, populate the form
-    if (selectedEvent && eventPrice) {
-        if (eventField) {
-            eventField.value = selectedEvent;
-            // Show payment section when event is pre-selected
-            if (paymentSection) {
-                paymentSection.classList.remove('hidden');
-            }
+    if (selectedEvent && eventPrice && eventField) {
+        eventField.value = selectedEvent;
+        
+        // Show payment section when event is pre-selected
+        if (paymentSection) {
+            paymentSection.classList.remove('hidden');
         }
         
         if (payAmount) {
-            payAmount.textContent = `₹${eventPrice}`;
+            payAmount.textContent = eventPrice;
         }
         
         // Update payment links with initial data
@@ -112,11 +126,13 @@ function handleEventChange() {
     const eventField = document.getElementById('eventField');
     const paymentSection = document.getElementById('paymentSection');
     const payAmount = document.getElementById('payAmount');
+    const txnNote = document.getElementById('txnNote');
     
     if (!eventField || !paymentSection) return;
     
     const selectedOption = eventField.options[eventField.selectedIndex];
     const price = selectedOption.getAttribute('data-price');
+    const eventName = selectedOption.value;
     
     if (price) {
         // Show payment section
@@ -124,7 +140,14 @@ function handleEventChange() {
         
         // Update amount
         if (payAmount) {
-            payAmount.textContent = `₹${price}`;
+            payAmount.textContent = price;
+        }
+        
+        // Update transaction note preview
+        if (txnNote) {
+            const fullName = document.getElementById('fullName');
+            const name = fullName ? fullName.value || 'Your_Name' : 'Your_Name';
+            txnNote.textContent = `${eventName} - ${name}`;
         }
         
         // Update payment link
@@ -142,12 +165,14 @@ function detectDeviceAndShowPayment() {
     // Check if device is mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
-    if (isMobile && mobilePayment && desktopPayment) {
-        mobilePayment.style.display = 'block';
-        desktopPayment.style.display = 'none';
-    } else if (desktopPayment && mobilePayment) {
-        desktopPayment.style.display = 'block';
-        mobilePayment.style.display = 'none';
+    if (mobilePayment && desktopPayment) {
+        if (isMobile) {
+            mobilePayment.style.display = 'block';
+            desktopPayment.style.display = 'none';
+        } else {
+            desktopPayment.style.display = 'block';
+            mobilePayment.style.display = 'none';
+        }
     }
 }
 
@@ -160,12 +185,13 @@ function updatePaymentLink() {
     const payAmount = document.getElementById('payAmount');
     const upiLink = document.getElementById('upiLink');
     const qrCode = document.getElementById('qrCode');
+    const txnNote = document.getElementById('txnNote');
     
-    if (!fullName || !eventField || !payAmount) return;
+    if (!eventField || !payAmount) return;
     
-    const name = fullName.value || 'User';
+    const name = fullName ? (fullName.value || 'User') : 'User';
     const event = eventField.value || 'Event';
-    const amountText = payAmount.textContent || '₹0';
+    const amountText = payAmount.textContent || '0';
     const amount = amountText.replace('₹', '').trim();
     
     // Create UPI payment link
@@ -182,6 +208,11 @@ function updatePaymentLink() {
         const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chl=${encodeURIComponent(upiUrl)}&chs=200x200&choe=UTF-8`;
         qrCode.src = qrUrl;
     }
+    
+    // Update transaction note preview
+    if (txnNote) {
+        txnNote.textContent = note;
+    }
 }
 
 // Make updatePaymentLink available globally
@@ -196,7 +227,13 @@ if (registrationForm) {
     registrationForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Validate form
+        // Check if already submitted
+        if (submitted) {
+            showError('Registration already submitted. Please refresh the page to register again.');
+            return;
+        }
+        
+        // Get form values
         const fullName = document.getElementById('fullName').value.trim();
         const email = document.getElementById('email').value.trim();
         const phone = document.getElementById('phone').value.trim();
@@ -204,7 +241,9 @@ if (registrationForm) {
         const department = document.getElementById('department').value.trim();
         const year = document.getElementById('year').value;
         const eventField = document.getElementById('eventField').value;
+        const teamDetails = document.getElementById('teamDetails').value.trim();
         const transactionId = document.getElementById('transactionId').value.trim();
+        const payAmount = document.getElementById('payAmount').textContent;
         
         // Validation checks
         if (fullName.length < 3) {
@@ -212,13 +251,19 @@ if (registrationForm) {
             return;
         }
         
-        if (!email.includes('@')) {
+        if (!email.includes('@') || !email.includes('.')) {
             showError('Please enter a valid email address');
             return;
         }
         
-        if (phone.length < 10) {
-            showError('Please enter a valid phone number');
+        // Enhanced phone number validation - exactly 10 digits
+        if (phone.length !== 10) {
+            showError('Please enter exactly 10 digits for phone number');
+            return;
+        }
+        
+        if (!/^\d{10}$/.test(phone)) {
+            showError('Phone number must contain only digits (0-9)');
             return;
         }
         
@@ -235,20 +280,20 @@ if (registrationForm) {
         // Show loading spinner
         showLoading();
         
-        // Get form data
+        // Get form data - ensure transactionId is stored as string and department/year are saved
         const formData = {
             fullName: fullName,
             email: email,
             phone: phone,
             college: college,
-            department: department,
-            year: year,
+            department: department || 'N/A', 
+            year: year || 'N/A', 
             event: eventField,
-            teamDetails: document.getElementById('teamDetails').value || 'N/A',
-            transactionId: transactionId,
-            registrationFee: document.getElementById('payAmount').textContent,
+            teamDetails: teamDetails || 'N/A',
+            transactionId: String(transactionId),
+            registrationFee: payAmount,
             timestamp: serverTimestamp(),
-            status: 'pending' // You can update this after payment verification
+            status: 'pending'
         };
         
         try {
@@ -262,6 +307,12 @@ if (registrationForm) {
             
             // Set submitted flag
             submitted = true;
+            
+            // Update success modal with event name
+            const successEventName = document.getElementById('successEventName');
+            if (successEventName) {
+                successEventName.textContent = eventField;
+            }
             
             // Clear session storage
             sessionStorage.removeItem('selectedEvent');
@@ -310,6 +361,7 @@ function showSuccess() {
     const successModal = document.getElementById('successModal');
     if (successModal) {
         successModal.style.display = 'flex';
+        successModal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
     }
 }
@@ -318,6 +370,7 @@ window.closeSuccessModal = function() {
     const successModal = document.getElementById('successModal');
     if (successModal) {
         successModal.style.display = 'none';
+        successModal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = 'auto';
     }
     // Redirect to events page or home

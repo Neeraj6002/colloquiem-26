@@ -232,12 +232,32 @@ function displayRegistrations(registrations) {
                 day: '2-digit'
             }) : 'N/A';
 
+        // Parse department and semester from department field
+        // Expected format: "Department - Semester" or just "Department"
+        let department = 'N/A';
+        let semester = 'N/A';
+        
+        if (reg.department) {
+            const parts = reg.department.split('-').map(p => p.trim());
+            if (parts.length >= 2) {
+                department = parts[0];
+                semester = parts[1];
+            } else {
+                department = reg.department;
+            }
+        }
+
+        // Get year from Firestore (should be a field in the registration document)
+        const year = reg.year || 'N/A';
+
         row.innerHTML = `
             <td>${reg.fullName || 'N/A'}</td>
             <td>${reg.email || 'N/A'}</td>
             <td>${reg.phone || 'N/A'}</td>
             <td>${reg.college || 'N/A'}</td>
-            <td>${reg.department || 'N/A'}</td>
+            <td>${department}</td>
+           
+            <td>${year}</td>
             <td>${reg.event || 'N/A'}</td>
             <td>${reg.teamDetails || 'N/A'}</td>
             <td>${reg.registrationFee || 'N/A'}</td>
@@ -278,7 +298,7 @@ function showNoData(message) {
     
     tableBody.innerHTML = `
         <tr>
-            <td colspan="12" class="no-data">
+            <td colspan="14" class="no-data">
                 <i class="fas fa-inbox"></i>
                 <p>${message}</p>
             </td>
@@ -301,6 +321,23 @@ export function viewDetails(registrationId) {
     const date = registration.timestamp ? 
         new Date(registration.timestamp.toMillis()).toLocaleString('en-IN') : 'N/A';
 
+    // Parse department and semester for modal display
+    let department = 'N/A';
+    let semester = 'N/A';
+    
+    if (registration.department) {
+        const parts = registration.department.split('-').map(p => p.trim());
+        if (parts.length >= 2) {
+            department = parts[0];
+            semester = parts[1];
+        } else {
+            department = registration.department;
+        }
+    }
+
+    // Get year from Firestore
+    const year = registration.year || 'N/A';
+
     const detailsContent = document.getElementById('detailsContent');
     detailsContent.innerHTML = `
         <div class="detail-item">
@@ -320,8 +357,16 @@ export function viewDetails(registrationId) {
             <p>${registration.college || 'N/A'}</p>
         </div>
         <div class="detail-item">
-            <label>Department & Semester</label>
-            <p>${registration.department || 'N/A'}</p>
+            <label>Department</label>
+            <p>${department}</p>
+        </div>
+        <div class="detail-item">
+            <label>Semester</label>
+            <p>${semester}</p>
+        </div>
+        <div class="detail-item">
+            <label>Year</label>
+            <p>${year}</p>
         </div>
         <div class="detail-item">
             <label>Event</label>
@@ -444,13 +489,14 @@ function searchTable() {
             return false;
         }
 
-        // Search across all fields
+        // Search across all fields including year
         return (
             (reg.fullName && reg.fullName.toLowerCase().includes(searchInput)) ||
             (reg.email && reg.email.toLowerCase().includes(searchInput)) ||
             (reg.phone && reg.phone.toLowerCase().includes(searchInput)) ||
             (reg.college && reg.college.toLowerCase().includes(searchInput)) ||
             (reg.department && reg.department.toLowerCase().includes(searchInput)) ||
+            (reg.year && reg.year.toString().toLowerCase().includes(searchInput)) ||
             (reg.event && reg.event.toLowerCase().includes(searchInput)) ||
             (reg.transactionId && reg.transactionId.toLowerCase().includes(searchInput))
         );
@@ -476,20 +522,39 @@ export function exportToCSV() {
         dataToExport = allRegistrations.filter(r => r.event === currentFilter);
     }
 
-    // CSV Headers
-    const headers = ['Name', 'Email', 'Phone', 'College', 'Department', 'Event', 'Team Details', 'Fee', 'Transaction ID', 'Date', 'Status'];
+    // CSV Headers - updated to include year
+    const headers = ['Name', 'Email', 'Phone', 'College', 'Department', 'Semester', 'Year', 'Event', 'Team Details', 'Fee', 'Transaction ID', 'Date', 'Status'];
     
     // CSV Rows
     const rows = dataToExport.map(reg => {
         const date = reg.timestamp ? 
             new Date(reg.timestamp.toMillis()).toLocaleDateString('en-IN') : 'N/A';
         
+        // Parse department and semester
+        let department = 'N/A';
+        let semester = 'N/A';
+        
+        if (reg.department) {
+            const parts = reg.department.split('-').map(p => p.trim());
+            if (parts.length >= 2) {
+                department = parts[0];
+                semester = parts[1];
+            } else {
+                department = reg.department;
+            }
+        }
+
+        // Get year from Firestore
+        const year = reg.year || 'N/A';
+        
         return [
             reg.fullName || 'N/A',
             reg.email || 'N/A',
             reg.phone || 'N/A',
             reg.college || 'N/A',
-            reg.department || 'N/A',
+            department,
+            semester,
+            year,
             reg.event || 'N/A',
             reg.teamDetails || 'N/A',
             reg.registrationFee || 'N/A',
@@ -614,4 +679,5 @@ window.approveFromModal = approveFromModal;
 window.rejectFromModal = rejectFromModal;
 window.filterByEvent = filterByEvent;
 window.exportToCSV = exportToCSV;
-window.refreshData = refreshData;   
+window.refreshData = refreshData;
+window.searchTable = searchTable;
