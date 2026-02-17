@@ -259,6 +259,7 @@ function displayRegistrations(registrations) {
            
             <td>${year}</td>
             <td>${reg.event || 'N/A'}</td>
+            <td>${reg.ieeeMembership}</td>
             <td>${reg.teamDetails || 'N/A'}</td>
             <td>${reg.registrationFee || 'N/A'}</td>
             <td>${reg.transactionId || 'N/A'}</td>

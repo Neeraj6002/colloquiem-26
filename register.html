@@ -28,14 +28,14 @@
         <div class="container">
             <div class="nav-brand" style="display: flex; align-items: center; gap: 15px;">
                 <a href="index.html" class="nav-logo"><img src="assects/Frame 48095814.png" alt="Colloquium Logo"></a>
-               
+                <img src="assects/header 5.png" alt="Header 5" style="height: 50px; width: auto;">
             </div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index.html#about">About</a></li>
                 <li><a href="events.html">Events</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="index.html" class="nav-cta active">Home</a></li>
+                <li><a href="register.html" class="nav-cta active">Register Now</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -72,7 +72,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" title="Please enter exactly 10 digits" required>
+                            <input type="tel" id="phone" placeholder="10-digit mobile number" pattern="[0-9]{10}"
+                                maxlength="10" title="Please enter exactly 10 digits" required>
                         </div>
                         <div class="form-group">
                             <label for="college">College / Institution</label>
@@ -82,11 +83,11 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="department" required>Department <span style="color: #888; font-size: 0.9em;"></span></label>
+                            <label for="department">Department</label>
                             <input type="text" id="department" placeholder="e.g. Computer Science" required>
                         </div>
                         <div class="form-group">
-                            <label for="year">Year of Study <span style="color: #888; font-size: 0.9em;"></span></label>
+                            <label for="year">Year of Study</label>
                             <select id="year" required>
                                 <option value="" disabled selected>Select year</option>
                                 <option value="1st Year">1st Year</option>
@@ -97,30 +98,123 @@
                         </div>
                     </div>
 
+                    <!-- ─── EVENT SELECT ─── -->
                     <div class="form-group">
                         <label for="eventField">Select Event</label>
                         <select id="eventField" required>
                             <option value="" disabled selected>Choose an event</option>
-                            <option value="Robowar" data-price="2000">🤖 Robowar — ₹2,000</option>
-                            <option value="ACME" data-price="200">💻 ACME — ₹200</option>
-                            <option value="Bridge Modelling" data-price="250">🌉 Bridge Modelling — ₹250</option>
-                            <option value="Automotive Biz Conclave" data-price="200">🚗 Automotive Biz Conclave — ₹200
-                            </option>
-                            <option value="Reverse Marketing" data-price="250">🔄 Reverse Marketing — ₹250</option>
-                            <option value="Model United Nations" data-price="150">🌍 Model United Nations (ISTE) — ₹150
-                            </option>
-                            <option value="Debate Championship" data-price="100">🎤 Debate Championship — ₹100</option>
-                            <option value="AI Prompt Engineering" data-price="100">🤖 AI Prompt Engineering — ₹100
-                            </option>
-                            <option value="Debug Hunt" data-price="100">🐛 Debug Hunt — ₹100</option>
-                            <option value="Circuit Designing Challenge" data-price="100">⚡ Circuit Designing Challenge —
-                                ₹100</option>
-                            <option value="AutoCAD Championship" data-price="100">📐 AutoCAD Championship — ₹100
-                            </option>
-                            <option value="AI ML Workshop" data-price="300">🧠 AI & ML Workshop — ₹300</option>
+
+                            <!-- ── IEEE Events ── -->
+                            
+                                <option value="Offenso Cyber Security Workshop" data-category="IEEE"
+                                    data-member-price="100" data-non-member-price="200">
+                                    Offenso Cyber Security Workshop 
+                                </option>
+                                <option value="PCB Design & Building Workshop" data-category="IEEE"
+                                    data-member-price="100" data-non-member-price="200">
+                                     PCB Design & Building Workshop 
+                                </option>
+                                <option value="Startup Pitching Competition" data-category="IEEE"
+                                    data-member-price="100" data-non-member-price="200">
+                                    Startup Pitching Competition 
+                                </option>
+                                <option value="Agentic AI Talk Session" data-category="IEEE"
+                                    data-member-price="100" data-non-member-price="200">
+                                     Agentic AI Talk Session
+                                </option>
+                                <option value="Web Design Workshop" data-category="IEEE"
+                                    data-member-price="100" data-non-member-price="200">
+                                    Web Design Workshop 
+                                </option>
+                                <option value="Figma UI/UX Session by Friends of Figma" data-category="IEEE"
+                                    data-member-price="100" data-non-member-price="200">
+                                     Figma UI/UX Session by Friends of Figma 
+                                </option>
+                                <option value="Valorant Tournament (Collab with Heaven Esports)" data-category="IEEE"
+                                    data-member-price="150" data-non-member-price="250">
+                                     Valorant Tournament (Heaven Esports Collab)
+                                </option>
+                            </optgroup>
+
+                            <!-- ── ISTE Events ── -->
+                            
+                                <option value="Intra MGI MUN Conference" data-category="ISTE" data-price="100">
+                                    Intra MGI MUN Conference 
+                                </option>
+                                <option value="Program Debugging" data-category="ISTE" data-price="80">
+                                     Program Debugging 
+                                </option>
+                                <option value="Circuit Designing" data-category="ISTE" data-price="100">
+                                     Circuit Designing 
+                                </option>
+                            </optgroup>
+
+                            <!-- ── IEDC Events ── -->
+                          
+                                <option value="Problem Hunt" data-category="IEDC" data-price="200">
+                                     Problem Hunt 
+                                </option>
+                                <option value="UI/UX Workshop" data-category="IEDC" data-price="200">
+                                     UI/UX Workshop 
+                                </option>
+                                <option value="Idea To Startup Sprint" data-category="IEDC" data-price="200">
+                                     Idea To Startup Sprint 
+                                </option>
+                            </optgroup>
+
+                            <!-- ── Open Events ── -->
+                         
+                                <option value="Robowar" data-category="OPEN" data-price="2000">
+                                     Robowar 
+                                </option>
+                                <option value="ACME" data-category="OPEN" data-price="200">
+                                     ACME 
+                                </option>
+                                <option value="Bridge Modelling" data-category="OPEN" data-price="250">
+                                     Bridge Modelling 
+                                </option>
+                                <option value="AutoCAD Competition" data-category="OPEN" data-price="100">
+                                    AutoCAD Competition 
+                                </option>
+                                <option value="Debate" data-category="OPEN" data-price="100">
+                                    Debate 
+                                </option>
+                                <option value="Prompt Writing Competition" data-category="OPEN" data-price="100">
+                                     Prompt Writing Competition 
+                                </option>
+                                <option value="Automotive Business Conclave" data-category="OPEN" data-price="200">
+                                     Automotive Business Conclave 
+                                </option>
+                                <option value="Reverse Marketing (Pitching)" data-category="OPEN" data-price="250">
+                                     Reverse Marketing (Pitching) 
+                                </option>
+                            </optgroup>
                         </select>
                     </div>
 
+                    <!-- ─── IEEE MEMBERSHIP SECTION (shown only for IEEE events) ─── -->
+                    <div id="ieeeStatusSection" class="form-group ieee-member-section is-hidden">
+                        <label>IEEE Membership Status</label>
+                        <div class="ieee-member-options">
+                            <label class="ieee-choice">
+                                <input type="radio" name="ieeeMemberType" value="non-member" checked>
+                                <span>Non-Member <em style="color:#aaa;">(₹200)</em></span>
+                            </label>
+                            <label class="ieee-choice">
+                                <input type="radio" name="ieeeMemberType" value="member">
+                                <span>IEEE Member <em style="color:#C5A059;">(₹100)</em></span>
+                            </label>
+                        </div>
+                        <p class="ieee-helper">IEEE Member fee is applied after entering your valid membership ID.</p>
+                    </div>
+
+                    <!-- ─── IEEE MEMBER ID (shown only when "member" is selected) ─── -->
+                    <div id="ieeeMemberIdGroup" class="form-group is-hidden">
+                        <label for="ieeeMemberId">IEEE Membership ID</label>
+                        <input type="text" id="ieeeMemberId" placeholder="Enter your IEEE Membership ID">
+                    </div>
+
+                    <!-- ─── TEAM MEMBERS ─── -->
                     <div class="form-group">
                         <label for="teamDetails">Team Members (if applicable)</label>
                         <textarea id="teamDetails"
@@ -133,28 +227,31 @@
                         <h3>Payment Details</h3>
                         <p class="payment-amount">Amount to Pay: <strong>₹<span id="payAmount">0</span></strong></p>
 
-                        <!-- Desktop Payment - QR Code -->
+                        <!-- Desktop: Show QR Code -->
                         <div id="desktop-payment" style="display: block;">
                             <div id="qrCodeContainer" class="qr-container">
-                                <img id="qrCode" src="" alt="Payment QR Code" style="max-width: 200px; height: auto;">
+                                <img id="qrCode" src="" alt="Payment QR Code"
+                                    style="max-width: 200px; height: auto;">
                                 <p class="qr-instruction">Scan to Pay via UPI</p>
                             </div>
                         </div>
 
-                        <!-- Mobile Payment - UPI Link -->
+                        <!-- Mobile: Show UPI Link Button -->
                         <div id="mobile-payment" style="display: none;">
                             <a id="upiLink" href="#" class="btn-primary btn-upi" target="_blank">
                                 Pay via UPI <i class="fas fa-wallet"></i>
                             </a>
                         </div>
 
-                        <p class="payment-note"><strong>Note:</strong> Transaction note will be automatically set to:
+                        <p class="payment-note">
+                            <strong>Note:</strong> Transaction note will be automatically set to:
                             <br><code id="txnNote">Event_Name - Your_Name</code>
                         </p>
 
                         <div class="form-group" style="margin-top: 24px; text-align: left;">
                             <label for="transactionId">Transaction ID (UTR)</label>
-                            <input type="text" id="transactionId" placeholder="Enter UPI Transaction ID" required>
+                            <input type="text" id="transactionId"
+                                placeholder="Enter UPI Transaction ID after payment" required>
                         </div>
                     </div>
 
@@ -173,7 +270,7 @@
                 <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: var(--accent-orange, #C5A059);"></i>
             </div>
             <h3>Processing Registration...</h3>
-            <p>Please wait while we process your registration.</p>
+            <p>Please wait while we submit your registration.</p>
         </div>
     </div>
 
@@ -187,9 +284,9 @@
             <div class="modal-icon">
                 <i class="fas fa-check"></i>
             </div>
-            <h3 id="successModalTitle">Registration Successful</h3>
+            <h3 id="successModalTitle">Registration Successful!</h3>
             <p>Your registration for <strong id="successEventName">your selected event</strong> has been submitted.
-                Please keep your transaction ID safe.</p>
+                Please keep your transaction ID safe for reference.</p>
             <button type="button" onclick="closeSuccessModal()" class="btn-primary">Done</button>
         </div>
     </div>
@@ -215,8 +312,8 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="nav-logo">COLLOQUIUM</a>
-                    <p>A premier technical symposium bringing together innovation, competition, and collaboration. March
-                        6, 2026.</p>
+                    <p>A premier technical symposium bringing together innovation, competition, and collaboration.
+                        March 6, 2026.</p>
                     <div style="margin-top: 20px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                         <img src="assects/header 2.png" alt="Partner Logo"
                             style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
@@ -238,7 +335,7 @@
                     <a href="register.html?event=Robowar">Robowar</a>
                     <a href="register.html?event=ACME">ACME</a>
                     <a href="register.html?event=Bridge%20Modelling">Bridge Modelling</a>
-                    <a href="register.html?event=AI%20Prompt%20Engineering">AI Prompt Engineering</a>
+                    <a href="register.html?event=Offenso%20Cyber%20Security%20Workshop">Offenso Cyber Security</a>
                 </div>
                 <div class="footer-col">
                     <h4>Legal</h4>
@@ -249,13 +346,14 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 Colloquium. All rights reserved.</p>
-                <p>Designed with <i class="fas fa-heart" style="color:var(--accent-orange);"></i> by IEEE SB MCET
-                </p>
+                <p>Designed with <i class="fas fa-heart" style="color:var(--accent-orange);"></i> by IEEE SB MCET</p>
             </div>
         </div>
     </footer>
 
+    <!-- Load script.js first (for navbar/hamburger/particles if used there) -->
     <script src="script.js"></script>
+    <!-- Load reg.js as a module (Firebase ES module) -->
     <script type="module" src="reg.js"></script>
 </body>
 
