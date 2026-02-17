@@ -35,12 +35,10 @@
                 <li><a href="index.html#about">About</a></li>
                 <li><a href="events.html">Events</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="register.html" class="nav-cta active">Register Now</a></li>
+                <li><a href="index.html" class="nav-cta active">Home</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
         </div>
     </nav>
@@ -54,10 +52,10 @@
         <div class="container">
             <div class="register-card fade-up">
                 <h2>Register for <span class="highlight">Colloquium</span></h2>
-                <p class="reg-subtitle">Fill in your details below to secure your spot. Choose your event and get ready
-                    to compete!</p>
+                <p class="reg-subtitle">Fill in your details below to secure your spot. Choose your event and get ready to compete!</p>
 
                 <form id="registrationForm">
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fullName">Full Name</label>
@@ -72,8 +70,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" placeholder="10-digit mobile number" pattern="[0-9]{10}"
-                                maxlength="10" title="Please enter exactly 10 digits" required>
+                            <input type="tel" id="phone" placeholder="10-digit mobile number"
+                                pattern="[0-9]{10}" maxlength="10" title="Please enter exactly 10 digits" required>
                         </div>
                         <div class="form-group">
                             <label for="college">College / Institution</label>
@@ -105,94 +103,108 @@
                             <option value="" disabled selected>Choose an event</option>
 
                             <!-- ── IEEE Events ── -->
-                            
-                                <option value="Offenso Cyber Security Workshop" data-category="IEEE"
-                                    data-member-price="100" data-non-member-price="200">
-                                    Offenso Cyber Security Workshop 
+                            <optgroup label="IEEE Events">
+                                <option value="Offenso Cyber Security Workshop"
+                                    data-category="IEEE" data-member-price="100" data-non-member-price="200">
+                                    Offenso Cyber Security Workshop
                                 </option>
-                                <option value="PCB Design & Building Workshop" data-category="IEEE"
-                                    data-member-price="100" data-non-member-price="200">
-                                     PCB Design & Building Workshop 
+                                <option value="PCB Design &amp; Building Workshop"
+                                    data-category="IEEE" data-member-price="100" data-non-member-price="200">
+                                    PCB Design &amp; Building Workshop
                                 </option>
-                                <option value="Startup Pitching Competition" data-category="IEEE"
-                                    data-member-price="100" data-non-member-price="200">
-                                    Startup Pitching Competition 
+                                <option value="Startup Pitching Competition"
+                                    data-category="IEEE" data-member-price="100" data-non-member-price="200">
+                                    Startup Pitching Competition
                                 </option>
-                                <option value="Agentic AI Talk Session" data-category="IEEE"
-                                    data-member-price="100" data-non-member-price="200">
-                                     Agentic AI Talk Session
+                                <option value="Agentic AI Talk Session"
+                                    data-category="IEEE" data-member-price="100" data-non-member-price="200">
+                                    Agentic AI Talk Session
                                 </option>
-                                <option value="Web Design Workshop" data-category="IEEE"
-                                    data-member-price="100" data-non-member-price="200">
-                                    Web Design Workshop 
+                                <option value="Web Design Workshop"
+                                    data-category="IEEE" data-member-price="100" data-non-member-price="200">
+                                    Web Design Workshop
                                 </option>
-                                <option value="Figma UI/UX Session by Friends of Figma" data-category="IEEE"
-                                    data-member-price="100" data-non-member-price="200">
-                                     Figma UI/UX Session by Friends of Figma 
+                                <option value="Figma UI/UX Session by Friends of Figma"
+                                    data-category="IEEE" data-member-price="100" data-non-member-price="200">
+                                    Figma UI/UX Session by Friends of Figma
                                 </option>
-                                <option value="Valorant Tournament (Collab with Heaven Esports)" data-category="IEEE"
-                                    data-member-price="150" data-non-member-price="250">
-                                     Valorant Tournament (Heaven Esports Collab)
+                                <option value="Valorant Tournament (Collab with Heaven Esports)"
+                                    data-category="IEEE" data-member-price="150" data-non-member-price="250">
+                                    Valorant Tournament (Heaven Esports Collab)
                                 </option>
                             </optgroup>
 
                             <!-- ── ISTE Events ── -->
-                            
-                                <option value="Intra MGI MUN Conference" data-category="ISTE" data-price="100">
-                                    Intra MGI MUN Conference 
+                            <optgroup label="ISTE Events">
+                                <option value="Intra MGI MUN Conference"
+                                    data-category="ISTE" data-price="100">
+                                    Intra MGI MUN Conference
                                 </option>
-                                <option value="Program Debugging" data-category="ISTE" data-price="80">
-                                     Program Debugging 
+                                <option value="Program Debugging"
+                                    data-category="ISTE" data-price="80">
+                                    Program Debugging
                                 </option>
-                                <option value="Circuit Designing" data-category="ISTE" data-price="100">
-                                     Circuit Designing 
+                                <option value="Circuit Designing"
+                                    data-category="ISTE" data-price="100">
+                                    Circuit Designing
                                 </option>
                             </optgroup>
 
                             <!-- ── IEDC Events ── -->
-                          
-                                <option value="Problem Hunt" data-category="IEDC" data-price="200">
-                                     Problem Hunt 
+                            <optgroup label="IEDC Events">
+                                <option value="Problem Hunt"
+                                    data-category="IEDC" data-price="200">
+                                    Problem Hunt
                                 </option>
-                                <option value="UI/UX Workshop" data-category="IEDC" data-price="200">
-                                     UI/UX Workshop 
+                                <option value="UI/UX Workshop"
+                                    data-category="IEDC" data-price="200">
+                                    UI/UX Workshop
                                 </option>
-                                <option value="Idea To Startup Sprint" data-category="IEDC" data-price="200">
-                                     Idea To Startup Sprint 
+                                <option value="Idea To Startup Sprint"
+                                    data-category="IEDC" data-price="200">
+                                    Idea To Startup Sprint
                                 </option>
                             </optgroup>
 
                             <!-- ── Open Events ── -->
-                         
-                                <option value="Robowar" data-category="OPEN" data-price="2000">
-                                     Robowar 
+                            <optgroup label="Open Events">
+                                <option value="Robowar"
+                                    data-category="OPEN" data-price="2000">
+                                    Robowar
                                 </option>
-                                <option value="ACME" data-category="OPEN" data-price="200">
-                                     ACME 
+                                <option value="ACME"
+                                    data-category="OPEN" data-price="200">
+                                    ACME
                                 </option>
-                                <option value="Bridge Modelling" data-category="OPEN" data-price="250">
-                                     Bridge Modelling 
+                                <option value="Bridge Modelling"
+                                    data-category="OPEN" data-price="250">
+                                    Bridge Modelling
                                 </option>
-                                <option value="AutoCAD Competition" data-category="OPEN" data-price="100">
-                                    AutoCAD Competition 
+                                <option value="AutoCAD Competition"
+                                    data-category="OPEN" data-price="100">
+                                    AutoCAD Competition
                                 </option>
-                                <option value="Debate" data-category="OPEN" data-price="100">
-                                    Debate 
+                                <option value="Debate"
+                                    data-category="OPEN" data-price="100">
+                                    Debate
                                 </option>
-                                <option value="Prompt Writing Competition" data-category="OPEN" data-price="100">
-                                     Prompt Writing Competition 
+                                <option value="Prompt Writing Competition"
+                                    data-category="OPEN" data-price="100">
+                                    Prompt Writing Competition
                                 </option>
-                                <option value="Automotive Business Conclave" data-category="OPEN" data-price="200">
-                                     Automotive Business Conclave 
+                                <option value="Automotive Business Conclave"
+                                    data-category="OPEN" data-price="200">
+                                    Automotive Business Conclave
                                 </option>
-                                <option value="Reverse Marketing (Pitching)" data-category="OPEN" data-price="250">
-                                     Reverse Marketing (Pitching) 
+                                <option value="Reverse Marketing (Pitching)"
+                                    data-category="OPEN" data-price="250">
+                                    Reverse Marketing (Pitching)
                                 </option>
                             </optgroup>
                         </select>
                     </div>
 
-                    <!-- ─── IEEE MEMBERSHIP SECTION (shown only for IEEE events) ─── -->
+                    <!-- ─── IEEE MEMBERSHIP SECTION ─── -->
                     <div id="ieeeStatusSection" class="form-group ieee-member-section is-hidden">
                         <label>IEEE Membership Status</label>
                         <div class="ieee-member-options">
@@ -208,7 +220,7 @@
                         <p class="ieee-helper">IEEE Member fee is applied after entering your valid membership ID.</p>
                     </div>
 
-                    <!-- ─── IEEE MEMBER ID (shown only when "member" is selected) ─── -->
+                    <!-- ─── IEEE MEMBER ID ─── -->
                     <div id="ieeeMemberIdGroup" class="form-group is-hidden">
                         <label for="ieeeMemberId">IEEE Membership ID</label>
                         <input type="text" id="ieeeMemberId" placeholder="Enter your IEEE Membership ID">
@@ -227,7 +239,7 @@
                         <h3>Payment Details</h3>
                         <p class="payment-amount">Amount to Pay: <strong>₹<span id="payAmount">0</span></strong></p>
 
-                        <!-- Desktop: Show QR Code -->
+                        <!-- Desktop: QR Code -->
                         <div id="desktop-payment" style="display: block;">
                             <div id="qrCodeContainer" class="qr-container">
                                 <img id="qrCode" src="" alt="Payment QR Code"
@@ -236,7 +248,7 @@
                             </div>
                         </div>
 
-                        <!-- Mobile: Show UPI Link Button -->
+                        <!-- Mobile: UPI deep-link button -->
                         <div id="mobile-payment" style="display: none;">
                             <a id="upiLink" href="#" class="btn-primary btn-upi" target="_blank">
                                 Pay via UPI <i class="fas fa-wallet"></i>
@@ -251,13 +263,14 @@
                         <div class="form-group" style="margin-top: 24px; text-align: left;">
                             <label for="transactionId">Transaction ID (UTR)</label>
                             <input type="text" id="transactionId"
-                                placeholder="Enter UPI Transaction ID after payment" required>
+                                placeholder="Enter UPI Transaction ID after payment">
                         </div>
                     </div>
 
                     <button type="submit" class="btn-primary">
                         Submit Registration <i class="fas fa-paper-plane"></i>
                     </button>
+
                 </form>
             </div>
         </div>
@@ -275,8 +288,8 @@
     </div>
 
     <!-- ─── SUCCESS MODAL ─── -->
-    <div id="successModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="successModalTitle"
-        aria-hidden="true" style="display: none;">
+    <div id="successModal" class="modal-overlay" role="dialog" aria-modal="true"
+        aria-labelledby="successModalTitle" aria-hidden="true" style="display: none;">
         <div class="modal-content">
             <button type="button" onclick="closeSuccessModal()" class="modal-close-btn" aria-label="Close">
                 <i class="fas fa-times"></i>
@@ -312,8 +325,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="nav-logo">COLLOQUIUM</a>
-                    <p>A premier technical symposium bringing together innovation, competition, and collaboration.
-                        March 6, 2026.</p>
+                    <p>A premier technical symposium bringing together innovation, competition, and collaboration. March 6, 2026.</p>
                     <div style="margin-top: 20px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                         <img src="assects/header 2.png" alt="Partner Logo"
                             style="height: 35px; width: auto; opacity: 0.8; filter: grayscale(100%) brightness(2);">
@@ -351,9 +363,7 @@
         </div>
     </footer>
 
-    <!-- Load script.js first (for navbar/hamburger/particles if used there) -->
     <script src="script.js"></script>
-    <!-- Load reg.js as a module (Firebase ES module) -->
     <script type="module" src="reg.js"></script>
 </body>
 

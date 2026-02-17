@@ -26,7 +26,7 @@ let submitted = false; // Prevent duplicate submissions
         window.addEventListener('load', () => setTimeout(hideLoader, 1500));
     }
 
-    // Hard fallback after 5 s
+    // Hard fallback after 5s
     setTimeout(() => {
         const loader = document.getElementById('loader');
         if (loader && !loader.classList.contains('hidden')) hideLoader();
@@ -51,37 +51,51 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Pre-fill event from sessionStorage (from events.html) ──
-    const savedEvent = sessionStorage.getItem('selectedEvent');
     const eventField = document.getElementById('eventField');
 
-    if (savedEvent && eventField) {
-        // Find matching option by value
-        const opt = [...eventField.options].find(o => o.value === savedEvent);
-        if (opt) {
-            eventField.value = savedEvent;
-            handleEventChange(); // trigger price + payment UI
+    // ── Pre-fill event from URL query param ?event=... ───────
+    // This is the primary mechanism used by events.html "Register Now" buttons.
+    // The ?event= value must exactly match the <option value="..."> attribute.
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlEvent  = urlParams.get('event');
+
+    if (urlEvent && eventField) {
+        // Decode the URL parameter (e.g. "Offenso%20Cyber%20Security%20Workshop" → "Offenso Cyber Security Workshop")
+        const decodedEvent = decodeURIComponent(urlEvent);
+
+        // Find the matching option by exact value match
+        const matchedOption = [...eventField.options].find(o => o.value === decodedEvent);
+
+        if (matchedOption) {
+            eventField.value = decodedEvent;
+            handleEventChange(); // trigger price display + payment UI
         }
     }
 
-    // ── URL query param ?event=... (deep links from footer) ──
-    const urlParams  = new URLSearchParams(window.location.search);
-    const urlEvent   = urlParams.get('event');
-    if (urlEvent && eventField && !savedEvent) {
-        const opt = [...eventField.options].find(o => o.value === urlEvent);
-        if (opt) {
-            eventField.value = urlEvent;
-            handleEventChange();
+    // ── Pre-fill event from sessionStorage (set by events page) ──
+    // Only use sessionStorage if URL param didn't already set a value
+    if (!urlEvent) {
+        const savedEvent = sessionStorage.getItem('selectedEvent');
+        if (savedEvent && eventField) {
+            const matchedOption = [...eventField.options].find(o => o.value === savedEvent);
+            if (matchedOption) {
+                eventField.value = savedEvent;
+                handleEventChange();
+            }
         }
     }
 
     // ── Event listeners ─────────────────────────────────────
-    if (eventField) eventField.addEventListener('change', handleEventChange);
+    if (eventField) {
+        eventField.addEventListener('change', handleEventChange);
+    }
 
     const fullName = document.getElementById('fullName');
-    if (fullName) fullName.addEventListener('input', updatePaymentLink);
+    if (fullName) {
+        fullName.addEventListener('input', updatePaymentLink);
+    }
 
-    // IEEE radio buttons
+    // IEEE radio buttons (delegated)
     document.addEventListener('change', e => {
         if (e.target.name === 'ieeeMemberType') handleIeeeMemberToggle();
     });
@@ -97,11 +111,11 @@ window.addEventListener('DOMContentLoaded', () => {
 // HANDLE EVENT SELECTION
 // ============================================================
 function handleEventChange() {
-    const eventField     = document.getElementById('eventField');
-    const paymentSection = document.getElementById('paymentSection');
-    const payAmountEl    = document.getElementById('payAmount');
-    const ieeeSection    = document.getElementById('ieeeStatusSection');
-    const ieeeMemberIdGrp= document.getElementById('ieeeMemberIdGroup');
+    const eventField      = document.getElementById('eventField');
+    const paymentSection  = document.getElementById('paymentSection');
+    const payAmountEl     = document.getElementById('payAmount');
+    const ieeeSection     = document.getElementById('ieeeStatusSection');
+    const ieeeMemberIdGrp = document.getElementById('ieeeMemberIdGroup');
 
     if (!eventField || !paymentSection) return;
 
@@ -113,8 +127,9 @@ function handleEventChange() {
     if (ieeeSection) {
         ieeeSection.classList.toggle('is-hidden', !isIEEE);
     }
+
+    // Always hide member-ID field when event changes; shown by radio toggle
     if (ieeeMemberIdGrp) {
-        // Always hide member-ID field when event changes; shown by radio toggle
         ieeeMemberIdGrp.classList.add('is-hidden');
     }
 
@@ -122,8 +137,8 @@ function handleEventChange() {
     const nonMemberRadio = document.querySelector('input[name="ieeeMemberType"][value="non-member"]');
     if (nonMemberRadio) nonMemberRadio.checked = true;
 
-    // Determine price
-    const price = getEffectivePrice(selectedOpt, false /* default = non-member */);
+    // Determine price (default to non-member for IEEE events)
+    const price = getEffectivePrice(selectedOpt, false);
 
     if (price !== null) {
         paymentSection.classList.remove('hidden');
@@ -170,7 +185,7 @@ function handleIeeeMemberToggle() {
         ieeeMemberIdGrp.classList.toggle('is-hidden', !isMember);
     }
 
-    // Update price
+    // Update displayed price
     const selectedOpt = eventField.options[eventField.selectedIndex];
     const price       = getEffectivePrice(selectedOpt, isMember);
 
@@ -184,16 +199,16 @@ function handleIeeeMemberToggle() {
 // UPDATE UPI PAYMENT LINK & QR CODE
 // ============================================================
 function updatePaymentLink() {
-    const fullName   = document.getElementById('fullName');
-    const eventField = document.getElementById('eventField');
-    const payAmountEl= document.getElementById('payAmount');
-    const upiLink    = document.getElementById('upiLink');
-    const qrCode     = document.getElementById('qrCode');
-    const txnNote    = document.getElementById('txnNote');
+    const fullNameEl  = document.getElementById('fullName');
+    const eventField  = document.getElementById('eventField');
+    const payAmountEl = document.getElementById('payAmount');
+    const upiLink     = document.getElementById('upiLink');
+    const qrCode      = document.getElementById('qrCode');
+    const txnNote     = document.getElementById('txnNote');
 
     if (!eventField || !payAmountEl) return;
 
-    const name   = fullName ? (fullName.value.trim() || 'User') : 'User';
+    const name   = fullNameEl ? (fullNameEl.value.trim() || 'User') : 'User';
     const event  = eventField.value || 'Event';
     const amount = payAmountEl.textContent.replace('₹', '').trim() || '0';
     const note   = `${event} - ${name}`;
@@ -203,7 +218,7 @@ function updatePaymentLink() {
     // Mobile UPI deep link
     if (upiLink) upiLink.href = upiUrl;
 
-    // Desktop QR code via Google Charts API
+    // Desktop QR code
     if (qrCode) {
         qrCode.src = `https://chart.googleapis.com/chart?cht=qr&chl=${encodeURIComponent(upiUrl)}&chs=220x220&choe=UTF-8`;
     }
@@ -212,7 +227,6 @@ function updatePaymentLink() {
     if (txnNote) txnNote.textContent = note;
 }
 
-// Make globally accessible (called by fullName input listener)
 window.updatePaymentLink = updatePaymentLink;
 
 // ============================================================
@@ -224,7 +238,6 @@ function detectDeviceAndShowPayment() {
     if (!mobileDiv || !desktopDiv) return;
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
     mobileDiv.style.display  = isMobile ? 'block' : 'none';
     desktopDiv.style.display = isMobile ? 'none'  : 'block';
 }
@@ -256,11 +269,10 @@ async function handleFormSubmit(e) {
     const payAmount     = payAmountEl ? payAmountEl.textContent.trim() : '0';
 
     // IEEE-specific fields
-    const memberRadio   = document.querySelector('input[name="ieeeMemberType"]:checked');
-    const ieeeMembership= memberRadio ? memberRadio.value : 'non-member';
-    const ieeeMemberId  = document.getElementById('ieeeMemberId')
-                          ? document.getElementById('ieeeMemberId').value.trim()
-                          : '';
+    const memberRadio    = document.querySelector('input[name="ieeeMemberType"]:checked');
+    const ieeeMembership = memberRadio ? memberRadio.value : 'non-member';
+    const ieeeMemberIdEl = document.getElementById('ieeeMemberId');
+    const ieeeMemberId   = ieeeMemberIdEl ? ieeeMemberIdEl.value.trim() : '';
 
     // ── Validation ───────────────────────────────────────────
     if (fullName.length < 3) {
@@ -289,10 +301,10 @@ async function handleFormSubmit(e) {
     }
 
     // Extra: if IEEE member selected, membership ID is required
-    const selectedOpt = document.getElementById('eventField').options[
-        document.getElementById('eventField').selectedIndex
-    ];
-    const isIEEEEvent = selectedOpt.getAttribute('data-category') === 'IEEE';
+    const eventSelectEl = document.getElementById('eventField');
+    const selectedOpt   = eventSelectEl.options[eventSelectEl.selectedIndex];
+    const isIEEEEvent   = selectedOpt.getAttribute('data-category') === 'IEEE';
+
     if (isIEEEEvent && ieeeMembership === 'member' && ieeeMemberId.length < 3) {
         return showError('Please enter your IEEE Membership ID to avail the member discount.');
     }
@@ -302,21 +314,21 @@ async function handleFormSubmit(e) {
 
     // ── Prepare Firestore document ───────────────────────────
     const formData = {
-        fullName:       fullName,
-        email:          email,
-        phone:          phone,
-        college:        college,
-        department:     department || 'N/A',
-        year:           year       || 'N/A',
-        event:          eventField,
-        eventCategory:  selectedOpt.getAttribute('data-category') || 'OPEN',
-        teamDetails:    teamDetails || 'N/A',
-        transactionId:  String(transactionId),
-        registrationFee:`₹${payAmount}`,
-        ieeeMembership: isIEEEEvent ? ieeeMembership : 'N/A',
-        ieeeMemberId:   isIEEEEvent && ieeeMembership === 'member' ? ieeeMemberId : 'N/A',
-        timestamp:      serverTimestamp(),
-        status:         'pending',
+        fullName:        fullName,
+        email:           email,
+        phone:           phone,
+        college:         college,
+        department:      department || 'N/A',
+        year:            year       || 'N/A',
+        event:           eventField,
+        eventCategory:   selectedOpt.getAttribute('data-category') || 'OPEN',
+        teamDetails:     teamDetails || 'N/A',
+        transactionId:   String(transactionId),
+        registrationFee: `₹${payAmount}`,
+        ieeeMembership:  isIEEEEvent ? ieeeMembership : 'N/A',
+        ieeeMemberId:    isIEEEEvent && ieeeMembership === 'member' ? ieeeMemberId : 'N/A',
+        timestamp:       serverTimestamp(),
+        status:          'pending',
     };
 
     // ── Write to Firestore ───────────────────────────────────
@@ -327,7 +339,7 @@ async function handleFormSubmit(e) {
         hideLoading();
         submitted = true;
 
-        // Update success modal
+        // Update success modal with event name
         const successEventName = document.getElementById('successEventName');
         if (successEventName) successEventName.textContent = eventField;
 
@@ -460,7 +472,11 @@ if (canvas) {
         requestAnimationFrame(animate);
     }
 
-    window.addEventListener('resize', () => { resizeCanvas(); initParticles(); detectDeviceAndShowPayment(); });
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        initParticles();
+        detectDeviceAndShowPayment();
+    });
 
     initParticles();
     animate();
