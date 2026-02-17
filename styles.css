@@ -1210,6 +1210,9 @@ img {
     .carousel-3d-card.next-2 {
         opacity: 0;
     }
+    .about-description {
+        margin-right: 10px;
+    }
 }
 
 
@@ -1347,6 +1350,7 @@ img {
     color: var(--text-secondary);
     margin-bottom: 32px;
     line-height: 1.8;
+margin-right: 10px;
 }
 
 .contact-details {
@@ -2218,7 +2222,7 @@ img {
     }
 
     .about-feature-card {
-        margin: 0 auto;
+        margin-right: 15px;
     }
 
     .carousel-3d-card {
