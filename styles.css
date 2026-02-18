@@ -1693,7 +1693,7 @@ img {
 
 .event-card-image {
     width: 100%;
-    height: 210px;
+    height: 510px;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     position: relative;
     filter: saturate(115%) contrast(108%);
