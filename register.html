@@ -153,7 +153,8 @@
                                 <option value="Problem Hunt" data-category="IEDC" data-price="200">
                                     Problem Hunt
                                 </option>
-                                <option value="UI/UX Workshop" data-category="IEDC" data-price="200">
+                                <option value="UI/UX Workshop"
+                                    data-category="IEDC" data-price="200">
                                     UI/UX Workshop
                                 </option>
                                 <option value="Idea To Startup Sprint" data-category="IEDC" data-price="200">
@@ -227,10 +228,10 @@
                         <p class="payment-amount">Amount to Pay: <strong>₹<span id="payAmount">0</span></strong></p>
 
                         <!-- Desktop: QR Code -->
-                        <!-- Desktop: QR Code -->
-                        <div id="desktop-payment" style="display: block;">
-                            <div id="qrCodeContainer" class="qr-container">
-                                <div style="
+                      <!-- Desktop: QR Code -->
+<div id="desktop-payment" style="display: block;">
+    <div id="qrCodeContainer" class="qr-container">
+        <div style="
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -243,9 +244,8 @@
             margin: 0 auto;
             gap: 10px;
         ">
-                                    <i class="fas fa-clock"
-                                        style="font-size: 36px; color: var(--accent-orange, #C5A059);"></i>
-                                    <p style="
+            <i class="fas fa-clock" style="font-size: 36px; color: var(--accent-orange, #C5A059);"></i>
+            <p style="
                 color: var(--accent-orange, #C5A059);
                 font-weight: 700;
                 font-size: 15px;
@@ -253,16 +253,27 @@
                 margin: 0;
                 line-height: 1.4;
             ">Registration<br>Starting Soon</p>
-                                </div>
-                                <p class="qr-instruction">Payment details will be available shortly</p>
-                            </div>
-                        </div>
+        </div>
+        <p class="qr-instruction">Payment details will be available shortly</p>
+    </div>
+</div>
 
                         <!-- Mobile: UPI deep-link button -->
                         <div id="mobile-payment" style="display: none;">
                             <a id="upiLink" href="#" class="btn-primary btn-upi" target="_blank">
-                                Pay via UPI <i class="fas fa-wallet"></i>
+                                Pay via UPI App <i class="fas fa-wallet"></i>
                             </a>
+                            <button type="button" id="mobileShowQrBtn" class="btn-secondary btn-show-qr"
+                                onclick="toggleMobileQr()">
+                                Show QR Code <i class="fas fa-qrcode"></i>
+                            </button>
+                            <div id="mobileQrWrap" class="mobile-qr-wrap" style="display: none;">
+                                <div class="qr-container">
+                                    <img id="mobileQrImg" alt="UPI QR Code"
+                                        style="width: 220px; height: 220px; display: block; border-radius: 8px;">
+                                    <p class="qr-instruction">Scan to pay</p>
+                                </div>
+                            </div>
                         </div>
 
                         <p class="payment-note">
