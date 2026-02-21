@@ -259,8 +259,9 @@ function displayRegistrations(registrations) {
            
             <td>${year}</td>
             <td>${reg.event || 'N/A'}</td>
+              <td>${reg.teamDetails || 'N/A'}</td>
             <td>${reg.ieeeMembership}</td>
-            <td>${reg.teamDetails || 'N/A'}</td>
+          <td>${reg.ieeeMemberId}</td>
             <td>${reg.registrationFee || 'N/A'}</td>
             <td style="font-size: 0.75rem; word-break: break-all;">${reg.upiPaidTo || 'N/A'}</td>
             <td>${reg.paymentDevice || 'N/A'}</td>
@@ -383,6 +384,7 @@ export function viewDetails(registrationId) {
             <label>Registration Fee</label>
             <p>${registration.registrationFee || 'N/A'}</p>
         </div>
+        
         <div class="detail-item">
             <label>UPI Paid To</label>
             <p style="font-size: 0.85rem; word-break: break-all;">${registration.upiPaidTo || 'N/A'}</p>
@@ -568,10 +570,12 @@ export function exportToCSV() {
             reg.phone || 'N/A',
             reg.college || 'N/A',
             department,
-            semester,
+            
             year,
             reg.event || 'N/A',
             reg.teamDetails || 'N/A',
+            reg.ieeeMembership,
+            reg.ieeeMemberId,
             reg.registrationFee || 'N/A',
             reg.upiPaidTo || 'N/A',
             reg.transactionNote || 'N/A',
