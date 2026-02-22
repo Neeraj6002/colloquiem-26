@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg-primary: #1c1a35;
-    --bg-secondary: #262045;
+    --bg-primary: #0a0917;
+    --bg-secondary: #110e2e;
     --bg-card: rgba(255, 255, 255, 0.04);
     --bg-glass: rgba(212, 175, 55, 0.04);
     --border-glass: rgba(212, 175, 55, 0.12);
@@ -13,7 +13,7 @@
     --text-primary: #f0ece2;
     --text-secondary: rgba(240, 236, 226, 0.65);
     --text-muted: rgba(240, 236, 226, 0.35);
-    --royal-deep: #1a1528;
+    --royal-deep: #0e0c1e;
     --royal-purple: rgba(88, 55, 120, 0.15);
     --font-display: 'Playfair Display', serif;
     --font-heading: 'Outfit', sans-serif;
@@ -36,16 +36,22 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    /* Fix for Samsung S20 / mobile browser white gap */
+    min-height: -webkit-fill-available;
+    background-color: #0a0917;
 }
 
 body {
     font-family: var(--font-body);
-    background: linear-gradient(160deg, #1c1a35 0%, #262045 25%, #2d2650 50%, #221e40 75%, #1c1a35 100%);
+    background: linear-gradient(160deg, #0e0d1e 0%, #131030 25%, #171338 50%, #110f28 75%, #0e0d1e 100%);
     background-attachment: scroll;
+    background-color: #0a0917;
     color: var(--text-primary);
     overflow-x: hidden;
     line-height: 1.6;
     min-height: 100vh;
+    /* Fix for Samsung S20 / mobile browser white gap */
+    min-height: -webkit-fill-available;
     width: 100%;
 }
 
@@ -56,11 +62,14 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
+    /* extended height to cover overscroll areas */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
     background:
-        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(201, 168, 76, 0.16), transparent),
-        radial-gradient(ellipse 50% 50% at 100% 50%, rgba(88, 55, 120, 0.13), transparent),
-        radial-gradient(ellipse 50% 50% at 0% 100%, rgba(201, 168, 76, 0.10), transparent),
-        radial-gradient(ellipse 30% 30% at 70% 80%, rgba(88, 55, 120, 0.10), transparent);
+        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(201, 168, 76, 0.09), transparent),
+        radial-gradient(ellipse 50% 50% at 100% 50%, rgba(88, 55, 120, 0.10), transparent),
+        radial-gradient(ellipse 50% 50% at 0% 100%, rgba(201, 168, 76, 0.07), transparent),
+        radial-gradient(ellipse 30% 30% at 70% 80%, rgba(88, 55, 120, 0.08), transparent);
     pointer-events: none;
     z-index: 0;
     will-change: transform;
@@ -74,6 +83,8 @@ body::after {
     left: 0;
     width: 100%;
     height: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
     background-image:
         linear-gradient(rgba(201, 168, 76, 0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(201, 168, 76, 0.02) 1px, transparent 1px);
@@ -92,13 +103,23 @@ body::after {
     100% { transform: translate(80px, 80px) translateZ(0); }
 }
 
+/* ── Overscroll background fix for Samsung / Android Chrome ── */
+html {
+    background-color: #0a0917;
+}
+
+/* Ensure footer area and page bottom never shows white */
+body > *:last-child {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 .loader-wrapper {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #1c1a35;
+    background: #0e0d1e;
     z-index: 99999;
     display: flex;
     flex-direction: column;
@@ -201,7 +222,7 @@ img { max-width: 100%; display: block; }
 
 .navbar.scrolled {
     padding: 12px 0;
-    background: rgba(21, 19, 37, 0.88);
+    background: rgba(12, 11, 22, 0.92);
     backdrop-filter: blur(24px) saturate(1.2);
     -webkit-backdrop-filter: blur(24px) saturate(1.2);
     border-bottom: 1px solid rgba(201, 168, 76, 0.08);
@@ -322,6 +343,7 @@ img { max-width: 100%; display: block; }
 
 .hero {
     min-height: 100vh;
+    min-height: -webkit-fill-available;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -763,8 +785,8 @@ img { max-width: 100%; display: block; }
     border: 1px solid rgba(201, 168, 76, 0.28);
     background:
         linear-gradient(120deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 45%),
-        linear-gradient(160deg, rgba(30, 26, 50, 0.96) 0%, rgba(21, 19, 37, 0.97) 100%);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        linear-gradient(160deg, rgba(20, 17, 36, 0.98) 0%, rgba(14, 12, 26, 0.99) 100%);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .about-collab-label {
@@ -947,7 +969,7 @@ img { max-width: 100%; display: block; }
     height: 420px;
     border-radius: var(--radius-lg);
     overflow: hidden;
-    background: rgba(20, 18, 31, 0.9);
+    background: rgba(12, 10, 20, 0.95);
     border: 1px solid rgba(201, 168, 76, 0.12);
     text-decoration: none;
     color: inherit;
@@ -1110,7 +1132,7 @@ select, input, textarea, button { font-family: var(--font-body); }
 
 .event-full-card {
     background:
-        linear-gradient(160deg, rgba(30, 26, 50, 0.92) 0%, rgba(21, 19, 37, 0.96) 100%);
+        linear-gradient(160deg, rgba(20, 17, 36, 0.96) 0%, rgba(12, 10, 22, 0.99) 100%);
     border: 1px solid rgba(201, 168, 76, 0.18);
     border-radius: var(--radius-md);
     backdrop-filter: blur(14px);
@@ -1147,20 +1169,18 @@ select, input, textarea, button { font-family: var(--font-body); }
     opacity: 1;
 }
 
-/* KEY FIX: portrait aspect ratio + contain so full poster is always visible */
 .event-card-image {
     width: 100%;
     aspect-ratio: 9 / 11;
     background-size: contain !important;
     background-repeat: no-repeat !important;
-    background-color: #0d0c1a !important;
+    background-color: #0a0917 !important;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     position: relative;
     transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), filter 0.55s ease;
     filter: saturate(115%) contrast(108%);
 }
 
-/* Remove bottom fade that was hiding the poster bottom */
 .event-card-image::after {
     display: none;
 }
@@ -1268,7 +1288,7 @@ select, input, textarea, button { font-family: var(--font-body); }
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(10, 9, 16, 0.92) 0%, rgba(10, 9, 16, 0.3) 50%, transparent 100%);
+    background: linear-gradient(to top, rgba(8, 7, 14, 0.95) 0%, rgba(8, 7, 14, 0.3) 50%, transparent 100%);
     pointer-events: none;
 }
 
@@ -1523,10 +1543,10 @@ select, input, textarea, button { font-family: var(--font-body); }
     padding-right: 40px;
 }
 
-.form-group select option { background: #1e1a32; color: var(--text-primary); }
+.form-group select option { background: #110e2e; color: var(--text-primary); }
 
 .form-group select optgroup {
-    background: #151325;
+    background: #0a0917;
     color: #c9a84c;
     font-weight: 700;
     font-size: 0.85rem;
@@ -1572,7 +1592,9 @@ select, input, textarea, button { font-family: var(--font-body); }
     padding: 60px 0 30px;
     position: relative;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+    /* Ensure footer covers any bottom gap */
+    padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px));
 }
 
 .footer-grid {
@@ -1689,7 +1711,7 @@ select, input, textarea, button { font-family: var(--font-body); }
     border: 1px solid rgba(201, 168, 76, 0.18);
     background:
         linear-gradient(130deg, rgba(201, 168, 76, 0.08), rgba(201, 168, 76, 0.02)),
-        rgba(21, 19, 37, 0.92);
+        rgba(14, 12, 26, 0.95);
     box-shadow: 0 16px 38px rgba(0, 0, 0, 0.3);
 }
 
@@ -1758,7 +1780,7 @@ select, input, textarea, button { font-family: var(--font-body); }
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(to top, rgba(12, 10, 20, 0.9), rgba(12, 10, 20, 0.35)),
+        linear-gradient(to top, rgba(8, 7, 14, 0.95), rgba(8, 7, 14, 0.35)),
         linear-gradient(130deg, rgba(201, 168, 76, 0.18), transparent 55%);
 }
 
@@ -1912,7 +1934,7 @@ select, input, textarea, button { font-family: var(--font-body); }
 }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-track { background: #0a0917; }
 ::-webkit-scrollbar-thumb { background: rgba(201, 168, 76, 0.2); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(201, 168, 76, 0.35); }
 
@@ -1924,7 +1946,7 @@ select, input, textarea, button { font-family: var(--font-body); }
         right: -100%;
         width: 280px;
         height: 100vh;
-        background: rgba(21, 19, 37, 0.96);
+        background: rgba(10, 9, 23, 0.98);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
         flex-direction: column;
@@ -2020,7 +2042,7 @@ select, input, textarea, button { font-family: var(--font-body); }
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(21, 19, 37, 0.9);
+    background: rgba(10, 9, 20, 0.92);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 10000;
@@ -2093,3 +2115,16 @@ select, input, textarea, button { font-family: var(--font-body); }
 }
 
 .modal-content .btn-primary { width: 100%; justify-content: center; }
+
+/* ── Samsung S20 / Android overscroll fix ──────────────────── */
+@supports (-webkit-touch-callout: none) {
+    /* iOS & Android WebKit: prevent white overscroll at bottom */
+    body {
+        background-attachment: scroll;
+    }
+}
+
+/* Extra safety: paint the very bottom of the page dark */
+body::after {
+    background-color: #0a0917;
+}
