@@ -139,20 +139,33 @@ function updateStats() {
 // ============================================================
 // UPDATE EVENT COUNTS
 // ============================================================
+// ============================================================
+// UPDATE EVENT COUNTS
+// ============================================================
 function updateEventCounts() {
+    // Map: exact Firestore event name → count element ID suffix
     const eventMappings = {
-        'Robowar': 'robowar',
-        'ACME': 'acme',
-        'Bridge Modelling': 'bridge',
-        'Automotive Biz Conclave': 'automotive',
-        'Reverse Marketing': 'marketing',
-        'MUN (ISTE)': 'mun',
-        'Debate': 'debate',
-        'Prompt Writing': 'prompt',
-        'Program Debugging': 'debug',
-        'Circuit Designing': 'circuit',
-        'AutoCAD Competition': 'autocad',
-        'AI Workshop': 'workshop'
+        'Valorant Tournament (Collab with Heaven Esports)': 'valorant',
+        'Startup Pitching Competition':                     'startup',
+        'Web Design Workshop':                              'webdesign',
+        'Figma UI/UX Session by Friends of Figma':         'figma',
+        'Agentic AI Talk Session':                          'agenticai',
+        'PCB Design & Building Workshop':                   'pcb',
+        'Offenso Cyber Security Workshop':                  'cyber',
+        'Intra MGI MUN Conference':                         'mun',
+        'Program Debugging':                                'debug',
+        'Circuit Designing':                                'circuit',
+        'Problem Hunt':                                     'problemhunt',
+        'UI/UX Workshop':                                   'uiux',
+        'Idea To Startup Sprint':                           'ideastartup',
+        'Robowar':                                          'robowar',
+        'ACME':                                             'acme',
+        'Bridge Modelling':                                 'bridge',
+        'AutoCAD Competition':                              'autocad',
+        'Debate':                                           'debate',
+        'Prompt Writing Competition':                       'prompt',
+        'Automotive Business Conclave':                     'automotive',
+        'Reverse Marketing (Pitching)':                     'reversemarketing',
     };
 
     // Update "All Events" count
@@ -165,7 +178,6 @@ function updateEventCounts() {
     Object.entries(eventMappings).forEach(([eventName, eventKey]) => {
         const count = allRegistrations.filter(r => r.event === eventName).length;
         const countElement = document.getElementById(`count-${eventKey}`);
-
         if (countElement) {
             countElement.textContent = count;
         }
